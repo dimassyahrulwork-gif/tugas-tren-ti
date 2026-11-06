@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Tugas Tren TI – Dimas Syahrul Miftahul Fitrian</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;800&family=Nunito+Sans:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f2f4fb; --surface:#ffffff; --ink:#1b1f3b; --muted:#5d6385;
+  --line:#d9ddf0; --accent:#4f46e5; --accent-soft:#e6e4ff; --pop:#ff4f87;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#12142a; --surface:#1b1e3a; --ink:#eceefc; --muted:#a3a9d1;
+    --line:#2e3260; --accent:#8b85ff; --accent-soft:#2a2a5c; --pop:#ff7aa5;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#12142a; --surface:#1b1e3a; --ink:#eceefc; --muted:#a3a9d1;
+  --line:#2e3260; --accent:#8b85ff; --accent-soft:#2a2a5c; --pop:#ff7aa5;
+  color-scheme:dark;
+}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;color:var(--ink);font:17px/1.65 "Nunito Sans",system-ui,sans-serif;
+  background:radial-gradient(60% 40% at 10% 0%,color-mix(in srgb,var(--accent) 22%,transparent),transparent),
+  radial-gradient(50% 40% at 95% 10%,color-mix(in srgb,var(--pop) 18%,transparent),transparent),var(--bg);
+  background-attachment:fixed}
+h1,h2,h3{font-family:"Bricolage Grotesque",system-ui,sans-serif;line-height:1.15;margin:0}
+.wrap{max-width:1040px;margin:0 auto;padding:32px 20px 64px}
+
+/* ===== PROFIL ===== */
+.profil{display:grid;grid-template-columns:auto 1fr;gap:32px;align-items:center;
+  background:color-mix(in srgb,var(--surface) 78%,transparent);
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  border:1px solid var(--line);border-radius:32px;padding:36px;
+  box-shadow:0 24px 60px -28px color-mix(in srgb,var(--accent) 55%,transparent)}
+@keyframes kilau{to{background-position:200% center}}
+@keyframes masuk{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+@keyframes denyut{0%,100%{box-shadow:0 0 0 0 color-mix(in srgb,var(--pop) 60%,transparent)}50%{box-shadow:0 0 0 6px transparent}}
+.foto{width:140px;height:140px;border-radius:50%;background:var(--accent-soft);
+  border:4px solid var(--surface);outline:3px solid var(--accent);outline-offset:3px;
+  display:grid;place-items:center;overflow:hidden;
+  font:800 46px "Bricolage Grotesque",sans-serif;color:var(--accent)}
+.foto img{width:100%;height:100%;object-fit:cover}
+.badge{display:inline-flex;align-items:center;gap:8px;background:var(--accent-soft);color:var(--accent);
+  font-weight:600;font-size:14px;padding:5px 14px;border-radius:999px;margin-bottom:12px}
+.badge::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--pop);animation:denyut 2s infinite}
+.profil h1{display:inline-block;font-size:clamp(28px,5.4vw,46px);font-weight:800;letter-spacing:-.02em;
+  background:linear-gradient(90deg,var(--ink),var(--accent),var(--pop),var(--accent),var(--ink));
+  background-size:200% auto;-webkit-background-clip:text;background-clip:text;
+  -webkit-text-fill-color:transparent;color:transparent;
+  animation:masuk .9s ease both,kilau 5s linear infinite}
+.ketik{border-right:3px solid var(--pop);padding-right:2px;animation:kedip .8s steps(1) infinite}
+@keyframes kedip{50%{border-color:transparent}}
+.bio{margin:10px 0 16px;color:var(--muted);max-width:60ch}
+.info{display:flex;flex-wrap:wrap;gap:8px}
+.info span{background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:5px 14px;font-size:15px}
+.info b{font-weight:600;color:var(--accent)}
+
+/* ===== KONTROL ===== */
+.bar{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin:44px 0 20px}
+.bar h2{font-size:28px;margin-right:auto}
+.bar input,.bar select{font:inherit;color:var(--ink);background:var(--surface);
+  border:2px solid var(--line);border-radius:14px;padding:10px 14px;min-width:0}
+.bar input{flex:1 1 220px;max-width:340px}
+.bar input:focus,.bar select:focus{outline:3px solid var(--accent);outline-offset:1px;border-color:var(--accent)}
+
+/* ===== KARTU ===== */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,300px),1fr));gap:18px}
+.kartu{background:var(--surface);border:1px solid var(--line);border-radius:24px;padding:24px;
+  box-shadow:0 8px 24px -14px color-mix(in srgb,var(--accent) 40%,transparent);
+  display:flex;flex-direction:column;gap:10px;transition:border-color .2s,transform .2s}
+.kartu:hover{border-color:var(--accent);transform:translateY(-4px);
+  box-shadow:0 18px 36px -16px color-mix(in srgb,var(--accent) 55%,transparent)}
+.kartu h3{font-size:22px;font-weight:800}
+.meta{display:flex;flex-wrap:wrap;gap:8px;font-size:14px;color:var(--muted)}
+.tag{background:var(--accent-soft);color:var(--accent);font-weight:600;border-radius:999px;padding:1px 10px}
+.isi{margin:0;white-space:pre-line}
+.kosong .isi{color:var(--muted);font-style:italic}
+.isi.potong{display:-webkit-box;-webkit-line-clamp:6;line-clamp:6;-webkit-box-orient:vertical;overflow:hidden}
+.lebih{align-self:flex-start;font:600 15px inherit;font-family:inherit;color:var(--accent);background:var(--accent-soft);
+  border:0;border-radius:999px;padding:6px 16px;cursor:pointer}
+.lebih:hover{filter:brightness(.95)}
+.lebih:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.hasil{color:var(--muted);margin:0 0 16px;font-size:15px}
+.tak-ada{grid-column:1/-1;text-align:center;color:var(--muted);padding:40px 0}
+footer{margin-top:56px;text-align:center;color:var(--muted);font-size:14px}
+
+@media (max-width:620px){
+  .profil{grid-template-columns:1fr;text-align:center;justify-items:center;padding:24px 18px}
+  .info{justify-content:center}
+}
+@media (prefers-reduced-motion:reduce){.kartu{transition:none}.kartu:hover{transform:none}.profil h1,.badge::before{animation:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- ===== PROFIL =====
+       Ganti foto: isi FOTO_URL di bagian script dengan alamat gambar (atau biarkan kosong untuk inisial) -->
+  <header class="profil">
+    <div class="foto" id="foto" aria-label="Foto profil">DS</div>
+    <div>
+      <span class="badge">Tugas Tren TI</span>
+      <h1 id="nama" aria-label="Dimas Syahrul Miftahul Fitrian">Dimas Syahrul Miftahul Fitrian</h1>
+      <p class="bio">Mahasiswa Teknik Informatika yang suka menuangkan ide lewat gambar dan menjelajahi dunia game. Halaman ini berisi rangkuman tugas mata kuliah Tren TI yang saya kerjakan.</p>
+      <div class="info">
+        <span><b>NIM</b> 2611501152</span>
+        <span><b>Prodi</b> Teknik Informatika</span>
+        <span><b>Kampus</b> Universitas Budi Luhur</span>
+        <span><b>Hobi</b> Menggambar &amp; bermain game</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===== KONTROL ===== -->
+  <div class="bar">
+    <h2>Rangkuman</h2>
+    <input id="cari" type="search" placeholder="Cari judul atau isi rangkuman" aria-label="Cari rangkuman">
+    <select id="filter" aria-label="Filter topik" hidden></select>
+  </div>
+  <p class="hasil" id="hasil" aria-live="polite"></p>
+  <main class="grid" id="grid"></main>
+
+  <footer>Tugas Tren TI · Dimas Syahrul Miftahul Fitrian · Universitas Budi Luhur</footer>
+</div>
+
+<script>
+/* =====================================================
+   DATA YANG BISA ANDA UBAH
+   ===================================================== */
+
+// Alamat foto profil. Kosongkan ("") untuk memakai inisial "DS".
+const FOTO_URL = "";
+
+/* DAFTAR RANGKUMAN
+   Setiap rangkuman punya 4 bagian:
+   - judul   : nama kartu
+   - tanggal : tanggal pengerjaan
+   - topik   : label (dipakai untuk filter, boleh diganti per kartu)
+   - isi     : teks rangkuman (tulis di antara tanda kutip; pakai \n untuk baris baru)
+
+   CARA MENAMBAH: salin satu blok { ... }, tempel di bawah blok terakhir,
+   jangan lupa tanda koma di antara blok, lalu ubah isinya. */
+const RANGKUMAN = [
+  { judul: "Rangkuman 1", tanggal: "", topik: "Tren TI", isi: `Pengantar Teknologi Informasi – Modul 1 (materi 1)
+
+1. Computer (Komputer)
+Komputer adalah perangkat elektronik yang bekerja berdasarkan instruksi yang tersimpan di dalam memorinya untuk mengolah data menjadi informasi.
+Jenis-jenis komputer:
+• Desktop: Komputer yang digunakan di meja dan biasanya tidak mudah dipindahkan.
+• Laptop: Komputer portabel yang mudah dibawa.
+• Tablet: Perangkat layar sentuh yang lebih praktis.
+• Server: Komputer yang menyediakan layanan atau data untuk komputer lain.
+
+2. Mobile and Games Devices
+Perangkat teknologi yang digunakan untuk komunikasi, hiburan, dan aktivitas sehari-hari.
+Contohnya:
+• Smartphone: Untuk komunikasi dan mengakses internet.
+• Kamera digital: Untuk mengambil foto dan video.
+• Media player: Untuk memutar musik dan video.
+• E-book reader: Untuk membaca buku digital.
+• Wearable devices: Perangkat yang dipakai di tubuh, seperti smartwatch.
+• Game devices: Perangkat untuk bermain game.
+
+3. Data and Information
+Komputer mengolah data menjadi informasi yang berguna bagi pengguna.
+• Data: Kumpulan fakta yang belum diolah, seperti angka, teks, gambar, audio, dan video.
+• Informasi: Data yang sudah diolah sehingga memiliki arti dan dapat digunakan.
+Hal yang perlu diingat: Data merupakan bahan mentah, sedangkan informasi merupakan hasil pengolahan data.
+
+4. Input, Output, Memory, dan Storage
+• Input: Memasukkan data ke komputer, contohnya keyboard, mouse, mikrofon, dan scanner.
+• Output: Menghasilkan informasi dari komputer, contohnya monitor, printer, dan speaker.
+• Memory: Tempat komputer menyimpan data sementara saat diproses.
+• Storage: Tempat menyimpan data untuk digunakan kembali, contohnya hard disk, SSD, flashdisk, kartu memori, dan cloud storage.
+
+5. The Web dan Internet
+Internet adalah kumpulan jaringan komputer di seluruh dunia yang saling terhubung.
+Istilah penting:
+• Web: Layanan untuk mengakses informasi melalui internet.
+• Website: Kumpulan halaman web.
+• Browser: Aplikasi untuk membuka halaman web, contohnya Chrome.
+• Search Engine: Mesin pencari informasi, contohnya Google.
+• Online Social Network: Jaringan sosial untuk berkomunikasi dan berbagi informasi secara online.
+
+6. Digital Security and Privacy
+Keamanan digital adalah cara melindungi komputer, perangkat, dan informasi pribadi dari ancaman digital.
+Hal yang perlu diperhatikan:
+• Virus dan malware dapat merusak atau mengganggu perangkat.
+• Privasi harus dijaga agar informasi pribadi tidak disalahgunakan.
+• Penggunaan teknologi berlebihan dapat mengganggu kesehatan.
+• Green Computing adalah upaya mengurangi penggunaan listrik dan limbah elektronik.
+Contoh Green Computing:
+• Mendaur ulang perangkat.
+• Menggunakan perangkat hemat energi.
+• Memperpanjang masa penggunaan komputer.
+• Membuang perangkat elektronik dengan benar.
+
+7. Programs and Applications
+Software atau perangkat lunak adalah program yang memberikan instruksi kepada komputer mengenai tugas yang harus dilakukan.
+Jenis software:
+• Sistem Operasi: Mengatur kerja komputer dan perangkat keras.
+• Aplikasi: Program yang digunakan untuk membantu pekerjaan tertentu.
+Contoh:
+• Sistem operasi: Windows, Linux, Android.
+• Aplikasi: Microsoft Word, Google Chrome, WhatsApp.
+
+8. Communications and Networks
+• Communication Device: Perangkat keras yang digunakan untuk mentransfer data dari komputer atau perangkat ke media transmisi dan sebaliknya.
+• Network: Kumpulan komputer dan perangkat yang saling terhubung untuk berbagi data dan informasi.
+Contoh teknologi komunikasi:
+• Wi-Fi
+• Bluetooth
+• Cellular Radio
+Jenis jaringan:
+• Kabel: Menggunakan kabel untuk menghubungkan perangkat.
+• Nirkabel: Menggunakan sinyal tanpa kabel.
+
+9. Technology Uses
+Teknologi digunakan dalam berbagai bidang kehidupan, seperti pendidikan, bisnis, komunikasi, kesehatan, dan hiburan.` },
+  { judul: "Rangkuman 2", tanggal: "", topik: "Tren TI", isi: `Pengantar Teknologi Informasi – Modul 2 (materi 2)
+Connecting and Communicating Online: The Internet, Websites, and Media
+
+1. Internet
+Internet adalah kumpulan jaringan komputer di seluruh dunia yang menghubungkan jutaan bisnis, instansi pemerintah, institusi pendidikan, dan individu.
+Sejarah Internet:
+• Internet berawal dari ARPANET pada September 1969.
+• Memungkinkan ilmuwan dari lokasi berbeda untuk berbagi informasi dan bekerja sama.
+• Dirancang agar jaringan tetap berfungsi meskipun sebagian jaringan mengalami kerusakan.
+Inti: Internet menghubungkan berbagai jaringan komputer di seluruh dunia.
+
+2. Connecting to the Internet
+Connecting to the Internet adalah proses menghubungkan komputer atau perangkat ke jaringan internet.
+Jenis koneksi:
+• Koneksi kabel: Menggunakan kabel atau kawat yang terhubung ke perangkat komunikasi.
+• Koneksi nirkabel: Menggunakan modem nirkabel atau perangkat komunikasi lainnya tanpa kabel.
+Inti: Koneksi internet dapat dilakukan menggunakan kabel maupun tanpa kabel.
+
+3. The World Wide Web (WWW)
+World Wide Web adalah kumpulan dokumen elektronik di seluruh dunia yang dapat diakses melalui internet.
+Istilah penting:
+• Webpage: Dokumen atau halaman yang terdapat di web.
+• Website: Kumpulan halaman web yang saling berkaitan.
+• Web Server: Komputer yang mengirimkan halaman web yang diminta pengguna.
+• Browser: Aplikasi untuk mengakses dan melihat halaman web.
+• Homepage: Halaman pertama yang ditampilkan oleh sebuah website.
+• Web Application: Aplikasi yang tersimpan di server web dan diakses melalui browser.
+• Cloud Storage: Penyimpanan data dan informasi pengguna melalui server internet.
+Inti: WWW menyediakan berbagai informasi yang dapat diakses melalui browser.
+
+4. Types of Websites
+Jenis-jenis website membahas berbagai situs yang digunakan untuk mencari dan mendapatkan informasi.
+Istilah penting:
+• Search Engine: Mesin pencari untuk menemukan website, gambar, video, berita, peta, dan informasi lainnya.
+• Subject Directory: Direktori yang mengelompokkan halaman web berdasarkan kategori tertentu, seperti olahraga dan belanja.
+Inti: Search engine mencari informasi, sedangkan subject directory mengelompokkan informasi berdasarkan kategori.
+
+5. Digital Media on the Web
+Multimedia adalah aplikasi yang menggabungkan teks dengan berbagai jenis media.
+Jenis multimedia:
+1. Graphics: Gambar atau ilustrasi.
+2. Animation: Gambar bergerak.
+3. Audio: Suara atau musik.
+4. Video: Rekaman gambar bergerak dan suara.
+5. Virtual Reality: Teknologi yang menciptakan lingkungan virtual atau buatan.
+Inti: Multimedia menggabungkan teks, gambar, suara, video, animasi, dan realitas virtual.
+
+6. Other Internet Services
+Layanan internet merupakan fasilitas yang membantu pengguna berkomunikasi dan bertukar informasi.
+• Email: Mengirim dan menerima pesan serta file melalui jaringan komputer.
+• Email List: Kumpulan alamat email untuk menyebarkan pesan kepada banyak orang.
+• Instant Messaging: Layanan untuk bertukar pesan atau file dengan kontak yang sedang online.
+• Chat: Percakapan secara langsung melalui teks dengan pengguna lain.
+• Chat Room: Tempat atau aplikasi untuk mengobrol dengan pengguna yang online secara bersamaan.
+• Online Discussion: Tempat berdiskusi mengenai topik tertentu secara online.
+• VoIP (Voice over IP): Teknologi untuk melakukan komunikasi suara melalui internet.
+• FTP (File Transfer Protocol): Standar internet untuk mengunggah dan mengunduh file dari komputer lain.
+• FTP Server: Komputer yang menyediakan layanan upload dan download file menggunakan FTP.
+Inti: Layanan internet mempermudah komunikasi, diskusi, dan pertukaran file.
+
+7. Netiquette
+Netiquette adalah aturan atau etika dalam berkomunikasi dan beraktivitas di internet.
+Contoh penerapan:
+• Menggunakan bahasa yang sopan.
+• Menghargai pendapat orang lain.
+• Tidak menyebarkan berita bohong.
+• Tidak menghina atau mengganggu pengguna lain.
+• Menghargai privasi orang lain.` },
+  { judul: "Rangkuman 3", tanggal: "", topik: "Tren TI", isi: `Rangkuman Modul 03: Computers and Mobile Devices
+
+1. Computer and Mobile Devices
+• Laptops, tablets, and desktops
+• Servers and terminals
+• Smartphones, digital cameras, e-book readers, portable and digital media players and wearable devices
+• Game devices
+• Embedded computers
+
+2. Mobile Computer and Desktops
+Mobile computer adalah komputer pribadi portabel, dirancang sedemikian rupa sehingga pengguna dapat dengan mudah membawanya dari satu tempat ke tempat lain.
+Komputer pribadi (PC) adalah komputer bergerak atau desktop yang dapat melakukan semua aktivitas input, processing, output, dan penyimpanan dengan sendirinya dan dimaksudkan untuk digunakan oleh satu orang pada satu waktu.
+
+3. Servers
+Server adalah komputer yang didedikasikan untuk menyediakan satu atau beberapa layanan ke komputer atau perangkat lain di jaringan.
+• Virtualisasi adalah praktik berbagi atau menggabungkan sumber daya komputasi, seperti server dan perangkat penyimpanan.
+• Virtualisasi server menggunakan perangkat lunak untuk memungkinkan server fisik meniru kemampuan perangkat keras dan komputasi dari satu atau lebih server, yang dikenal sebagai server virtual.
+• Server farm adalah jaringan beberapa server di satu lokasi.
+
+Table 3-1 Dedicated Servers (jenis server dan layanan utamanya):
+• Application server: Stores and runs apps
+• Backup server: Backs up and restores files, folders, and media
+• Database server: Stores and provides access to a database
+• Domain name server: Stores domain names and their corresponding IP addresses
+• File server (or storage server): Stores and manages files
+• FTP server: Stores files for user upload or download via FTP
+• Game server: Provides a central location for online gaming
+• Home server: Provides storage, Internet connections, or other services to computers and devices in a household
+• List server: Stores and manages email lists
+• Mail server: Stores and delivers email messages
+• Network server: Manages network traffic
+• Print server: Manages printers and documents being printed
+• Web server: Stores and delivers requested webpages to a computer via a browser
+
+4. Terminals
+Terminal adalah komputer, biasanya dengan kekuatan pemrosesan terbatas, yang memungkinkan pengguna mengirim data ke dan / atau menerima informasi dari server, atau komputer host.
+• Thin client adalah terminal yang terlihat seperti desktop tetapi memiliki kemampuan dan komponen terbatas.
+• ATM (automated teller machine) adalah terminal perbankan swalayan yang terhubung ke komputer host melalui jaringan.
+• Kios swalayan adalah terminal mandiri yang biasanya memiliki layar sentuh untuk interaksi pengguna.
+
+5. Supercomputers
+Superkomputer adalah komputer tercepat dan terkuat, dan yang paling mahal.
+• Mampu memproses banyak trilyunan instruksi dalam satu detik.
+
+6. Cloud Computing
+Cloud computing / Komputasi awan mengacu pada lingkungan yang menyediakan sumber daya dan layanan yang diakses melalui Internet.
+
+7. Mobile Devices
+(Pada materi bagian ini hanya berisi gambar dan tidak ada teks penjelasan.)
+
+8. Game Devices
+• Konsol game adalah perangkat komputasi mobile yang dirancang untuk permainan video multiplayer atau multiplayer.
+• Perangkat permainan genggam adalah perangkat seluler kecil yang berisi layar, speaker, kontrol, dan konsol game semuanya dalam satu unit.
+• Pengontrol permainan meliputi gamepads, joystick dan roda, bantalan dansa, dan berbagai pengontrol motion-sensing.
+
+9. Embedded Computers
+Embedded computer / Komputer yang disematkan adalah komputer tujuan khusus yang berfungsi sebagai komponen dalam produk yang lebih besar.
+Contohnya:
+• Consumer electronics
+• Home automation devices
+• Automobiles
+• Process controllers and robotics
+• Computer devices and office machines
+
+10. Ports and Connections
+Port adalah titik di mana perangkat periferal menempel atau berkomunikasi dengan komputer atau perangkat selular sehingga perangkat periferal dapat mengirim data ke atau menerima informasi dari komputer atau perangkat selular.
+
+Table 3-4 Popular Ports and Connectors:
+DisplayPort (audio/video), DVI (digital video interface), HDMI (audio/video), Headphones, Lightning, Microphone, Micro USB, Mini DisplayPort, Mini USB, Mini HDMI (audio/video), Network (Ethernet), Speaker, Thunderbolt, USB (Type A), USB (Type B), VGA.
+
+11. Protecting Hardwares
+Untuk membantu mengurangi kemungkinan pencurian, perusahaan dan sekolah menggunakan berbagai langkah pengamanan:
+• Physical access controls
+• Alarm system
+• Physical security devices
+• Security or device-tracking app
+• Require identification
+
+12. Health Concerns of Using Technology
+• Repetitive Strain Injury (RSI): cedera atau gangguan otot, saraf, tendon, ligamen, dan persendian.
+• Computer vision syndrome (CVS): kondisi kesehatan yang berhubungan dengan teknologi yang mempengaruhi penglihatan.
+• Ergonomics: ilmu terapan yang ditujukan untuk menggabungkan kenyamanan, efisiensi, dan keamanan ke dalam desain barang di tempat kerja.
+• Technology addiction / Kecanduan teknologi: terjadi saat teknologi mengkonsumsi seluruh kehidupan sosial seseorang.
+
+Rangkuman (Chapter Summary)
+Modul ini menyajikan karakteristik dan pedoman pembelian untuk laptop, tablet, desktop, smartphone, kamera digital, dan pemutar media portabel dan digital. Juga membahas server, superkomputer, terminal point-of-sale, ATM, kios swalayan, pembaca e-book, perangkat yang dapat dipakai, perangkat game, komputer tertanam, dan komputasi awan. Tak lupa disajikan berbagai port dan koneksi, cara untuk melindungi perangkat keras, dan masalah kesehatan dari penggunaan teknologi bersama dengan langkah-langkah pencegahan.` },
+  { judul: "Rangkuman 4", tanggal: "", topik: "Tren TI", isi: `Rangkuman Modul 04: Programs and Apps
+
+1. Programs and Apps
+• Program atau perangkat lunak terdiri dari serangkaian instruksi terkait, disusun untuk tujuan bersama, yang memberi tahu komputer tugas apa yang harus dilakukan dan bagaimana melakukannya.
+• Aplikasi (apps) terdiri dari program yang dirancang untuk membuat pengguna lebih produktif dan/atau membantu mereka melakukan tugas pribadi.
+• Sistem operasi adalah seperangkat program yang mengkoordinasikan semua aktivitas di antara perangkat keras komputer atau perangkat mobile.
+Bentuk software: Retail, Custom, Web app, Mobile app, Mobile web app, Shareware, Freeware, Open source, Public domain.
+
+2. Productivity Applications
+Membantu lebih efektif dan efisien di tempat kerja, sekolah, dan rumah. Jenisnya:
+• Word processing
+• Presentation
+• Spreadsheet
+• Database
+• Note taking
+• Calendar and contact management
+• Project management
+• Accounting
+• Personal finance
+• Legal
+• Tax preparation
+• Document management
+• Enterprise computing
+
+3. Graphics and Media Applications
+• Computer-aided design (CAD) software
+• Desktop publishing software
+• Paint/Image editing software
+• Photo editing and photo management software
+• Video and audio editing software
+
+4. Personal Interests Applications
+Lifestyle, Medical, Entertainment, Convenience, dan Education application.
+
+5. Communications Applications
+Blog, Browsing, Chat, Online Discussion, Email, File Transfer, Internet Phone, Instant Messaging, Mobile Messaging, Video conference, Web Feeds.
+
+6. Security Tools
+• Personal firewall: alat keamanan yang mendeteksi dan melindungi komputer pribadi dan datanya dari gangguan yang tidak sah.
+• Antivirus program: melindungi komputer dari virus dengan mengidentifikasi dan menghapus virus yang ditemukan di memori, media penyimpanan, atau pada file yang masuk.
+• Spyware: program yang ditempatkan tanpa sepengetahuan pengguna, secara diam-diam mengumpulkan informasi pengguna lalu mengirimkannya ke sumber luar saat pengguna online.
+• Spyware remover: mendeteksi dan menghapus program spyware dan sejenisnya.
+• Adware: menampilkan iklan online di banner atau jendela pop-up atau pop-under pada halaman web, email, atau layanan Internet lainnya.
+• Adware remover: mendeteksi dan menghapus adware.
+Security tools lainnya: Anti-spam programs, Web filtering software, Phishing filters, Pop-up and pop-under blockers.
+
+Signs of Virus Infection (tanda-tanda infeksi virus):
+• An unusual message or image is displayed on the computer screen.
+• An unusual sound or music plays randomly.
+• The available memory is less than what should be available.
+• A program or file suddenly is missing.
+• An unknown program or file mysteriously appears.
+• The size of a file changes without explanation.
+• A file becomes corrupted.
+• A program or file does not work properly.
+• System properties change.
+• The computer operates much slower than usual.
+
+7. File, Disk, and System Management Tools
+File manager adalah alat yang melakukan fungsi yang berhubungan dengan manajemen file. Alat yang termasuk di dalamnya: Search tool, Image viewer, Uninstaller, Disk clean up, Disk defragmenter, Screen saver, File compression, PC maintenance tool, Back up tool, Restore tool.
+
+Rangkuman (Chapter Summary)
+Modul 4 ini menyajikan berbagai program dan aplikasi yang tersedia untuk komputer dan perangkat seluler. Anda belajar tentang peran sistem operasi dan berbagai cara perangkat lunak didistribusikan, fitur-fitur dari berbagai aplikasi produktivitas, aplikasi grafis dan media, dan aplikasi minat pribadi. Juga meninjau beberapa aplikasi komunikasi dan kemudian menyajikan fitur berbagai alat keamanan dan file, disk, dan alat manajemen sistem.
+
+Latihan (Student Assignments)
+• Bagaimana Anda tahu jika komputer atau perangkat seluler Anda terinfeksi malware?
+• Jenis perangkat lunak apa yang melindungi komputer dari virus dan malware lain?
+• Mengapa Anda harus menggunakan kata sandi yang berbeda untuk semua situs web yang Anda akses?
+• Bagaimana Anda tahu jika Anda kecanduan komputer atau menderita kelebihan teknologi?
+• Apa perbedaan antara perangkat lunak sistem dan aplikasi?
+• Apa saja contoh sistem operasi yang populer?
+• Apa perbedaan antara aplikasi desktop, aplikasi web, dan aplikasi seluler?
+
+True / False (Tandai T untuk Benar dan F untuk Salah)
+1. Perangkat lunak aplikasi berfungsi sebagai antarmuka antara pengguna, aplikasi, dan perangkat keras komputer atau perangkat seluler. (158)
+2. Saat komputer atau perangkat seluler berjalan, sistem operasi tetap berada dalam memori. (160)
+3. Perangkat lunak open source adalah perangkat lunak yang diproduksi secara massal dan memiliki hak cipta yang memenuhi kebutuhan beragam pengguna. (161)
+4. Saat mengunduh shareware, freeware, atau perangkat lunak domain publik, adalah praktik yang baik untuk mencari situs web dengan peringkat dan ulasan produk. (162)
+5. Dengan aplikasi web, Anda selalu mengakses versi terbaru perangkat lunak. (163)
+6. Dengan perangkat lunak basis data, pengguna menjalankan fungsi untuk mengambil data. (170)
+7. Perangkat lunak suite menawarkan tiga keuntungan utama: biaya lebih rendah, kemudahan penggunaan, dan integrasi. (172)
+8. File PDF dapat dilihat dan dicetak tanpa perangkat lunak yang membuat dokumen asli. (176)
+9. Militer dan maskapai penerbangan menggunakan simulasi CBT untuk melatih pilot untuk terbang dalam berbagai kondisi dan lingkungan. (184)
+10. Router juga dapat berfungsi sebagai firewall perangkat keras. (190)` },
+  { judul: "Rangkuman 5", tanggal: "", topik: "Tren TI", isi: `Rangkuman Modul 5: Digital Security, Ethics dan Privacy
+
+1.1 Resiko Keamanan Digital
+Resiko keamanan digital adalah kejadian atau tindakan yang dapat menyebabkan hilangnya atau kerusakan pada perangkat keras, perangkat lunak, data, informasi, atau kemampuan perangkat keras komputer atau perangkat seluler. Setiap tindakan ilegal yang melibatkan penggunaan komputer atau perangkat terkait umumnya disebut kejahatan komputer. Cybercrime adalah tindakan ilegal berbasis online atau berbasis internet.
+
+a. Hacker
+Hacker adalah seseorang yang memiliki keahlian berkenaan sistem komputer dan pemrograman. Perkembangan pengertiannya:
+• Akhir 1950-an: merujuk pada para programmer mahir.
+• Tahun 1970-an: para revolusioner komputer yang menjadi cikal-bakal para pendiri perusahaan komputer.
+• Akhir 1980-an: identik dengan pembajakan video game dengan menghilangkan proteksi dan menjualnya.
+• Saat ini: banyak yang mengartikan negatif, yaitu seseorang yang menerobos sistem komputer untuk mengumpulkan informasi, menolak akses, menghapus file, atau mengacaukan sistem.
+
+Lima jenis hacker:
+• White Hat Hacker: memegang teguh standar etika, mengakses sistem bukan untuk merugikan tetapi menguji ketahanan sistem; banyak yang disewa sebagai konsultan keamanan.
+• Black Hat Hacker: menerobos sistem untuk merusak, seperti menghapus file, pencurian identitas, penipuan kartu kredit. Disebut juga cracker.
+• Grey Hat Hacker: standar etika ganda, di antara white hat dan black hat.
+• Script Kiddie Hacker: tidak mahir, namun mampu menerobos sistem memakai software atau tools buatan orang lain.
+• Hacktivist Hacker: menyebarkan pesan tertentu (politik, agama, ideologi) lewat website deface.
+
+b. Corporate Spies: mata-mata perusahaan yang melakukan akses ilegal untuk mengetahui kekurangan rival.
+c. Unethical employee: karyawan tidak beretika yang masuk ke jaringan organisasi untuk mengambil data secara diam-diam, demi keuntungan maupun balas dendam.
+d. Cyberextortionist: pihak yang menggunakan email untuk mengancam organisasi atau perorangan dan meminta uang.
+e. Cyberterrorist: menggunakan internet untuk merusak komputer karena alasan politik; target biasanya sistem penerbangan, pembangkit listrik, atau infrastruktur telekomunikasi.
+
+1.2 Serangan Internet dan Jaringan
+Malware (malicious software) terdiri dari program yang bertindak tanpa sepengetahuan pengguna dan dengan sengaja mengubah operasi komputer dan perangkat seluler.
+• Virus: program yang dapat menggandakan dirinya dan menyebar dengan menyisipkan salinan ke program atau dokumen lain.
+• Worm: menggandakan diri terus-menerus lewat jaringan tanpa campur tangan user, membuat hard disk penuh dan performa lambat; beberapa menghabiskan bandwidth.
+• Trojan Horse: memperoleh informasi dari target (password, system log, data) dan mengendalikan target.
+• Rootkit: aplikasi tersembunyi yang memungkinkan seseorang mengambil akses penuh terhadap perangkat yang terjangkit.
+• Spyware: menghimpun informasi saat online tanpa disadari user lalu mengirimkannya ke pihak tidak bertanggung jawab.
+• Adware: menginstal diri tanpa sepengetahuan pengguna dan menampilkan iklan saat berselancar.
+
+Serangan lainnya:
+• Botnet: sekelompok komputer/perangkat seluler yang dikompromikan dan terhubung ke jaringan; perangkat yang dikompromikan disebut zombie.
+• Serangan DoS (denial of service): mengganggu akses komputer ke layanan Internet.
+• Back door: program atau instruksi yang memungkinkan pengguna memotong kontrol keamanan.
+• Spoofing: teknik penyusup agar jaringan atau transmisi internet mereka tampak sah.
+Firewall (perangkat keras dan/atau lunak) melindungi sumber daya jaringan dari gangguan.
+
+1.3 Pencurian Perangkat Lunak
+Terjadi saat: mencuri media perangkat lunak, sengaja menghapus program, ilegal mendaftarkan/mengaktifkan program, dan ilegal menyalin program.
+Product activation (online atau telepon) mengaitkan perangkat lunak dengan komputer tempat diinstal, agar tidak dipasang lebih banyak dari yang dilisensikan. License agreement adalah hak untuk menggunakan perangkat lunak.
+Single-user license, Anda boleh:
+• Menginstal software hanya pada satu komputer atau perangkat.
+• Membuat satu salinan sebagai backup.
+• Memberikan atau menjual software ke orang lain, asal dihapus dulu dari komputer Anda.
+Anda tidak boleh:
+• Menginstal software di jaringan, misalnya lab komputer sekolah.
+• Memberi salinan ke teman sambil tetap memakainya.
+• Mengekspor software.
+• Menyewakan atau me-lease software.
+
+1.4 Etika Teknologi
+Etika teknologi adalah pedoman moral yang mengatur penggunaan komputer, perangkat bergerak, sistem informasi, dan teknologi terkait. Keakuratan informasi harus menjadi perhatian karena tidak semua informasi di internet benar.
+• Kekayaan intelektual: karya unik dan orisinal seperti gagasan, penemuan, seni, tulisan, proses, nama perusahaan dan produk, dan logo.
+• Hak atas kekayaan intelektual: hak pencipta atas pekerjaannya.
+• Hak cipta (copyrights): melindungi bentuk ekspresi yang nyata.
+• DRM (Digital rights management): strategi mencegah penyebaran film, musik, dan konten digital secara ilegal.
+• Code of conduct / kode etik: pedoman tertulis untuk menentukan apakah suatu tindakan etis atau tidak, dibolehkan atau tidak.
+
+Sample IT Code of Conduct:
+• Technology may not be used to harm other people.
+• Employees may not meddle in others’ files.
+• Employees may use technology only for purposes in which they have been authorized.
+• Technology may not be used to steal.
+• Technology may not be used to bear false witness.
+• Employees may not copy or use software illegally.
+• Employees may not use others’ technology resources without authorization.
+• Employees may not use others’ intellectual property as their own.
+• Employees shall consider the social impact of programs and systems they design.
+• Employees always should use technology in a way that demonstrates consideration and respect for fellow humans.
+
+Green computing: mengurangi listrik dan limbah lingkungan saat menggunakan teknologi.
+• Conserve Energy: pakai perangkat berstandar ENERGY STAR; jangan biarkan komputer menyala semalaman; matikan monitor, printer, dan perangkat lain saat tidak dipakai.
+• Reduce Environmental Waste: komunikasi tanpa kertas; daur ulang kertas, toner, tinta, komputer, dan perangkat lain; telecommute; pakai videoconferencing dan VoIP untuk rapat.
+
+1.5 Privacy
+Information privacy adalah hak individu dan perusahaan untuk menolak atau membatasi pengumpulan, penggunaan, dan penyebaran informasi tentang mereka. Informasi Anda dapat tersimpan di database saat mengisi formulir, membuat profil di jaringan sosial, atau mendaftarkan garansi produk.
+Cookie adalah file teks kecil yang disimpan server web di komputer Anda. Kegunaannya: personalisasi, menyimpan nama pengguna/kata sandi, membantu belanja online, melacak frekuensi kunjungan, dan menargetkan iklan.
+Cara kerja cookie:
+• Step 1: Saat memasukkan alamat website, browser mencari cookie terkait di hard drive.
+• Step 2: Jika ditemukan, browser mengirim informasi cookie ke website.
+• Step 3: Jika website tidak menerima cookie yang diharapkan, website membuat nomor identifikasi di databasenya dan mengirimnya ke browser, yang lalu membuat file cookie dan menyimpannya di hard drive.
+
+Istilah lain terkait privasi:
+• Phishing: penipuan lewat email untuk memperoleh informasi pribadi dan/atau keuangan.
+• Clickjacking: objek yang bisa diklik di situs berisi program jahat.
+• Social engineering: mendapatkan akses atau informasi rahasia dengan memanfaatkan sifat percaya dan kenaifan korban.
+• Employee monitoring: memakai komputer, perangkat seluler, atau kamera untuk mengamati, mencatat, dan meninjau penggunaan teknologi karyawan.
+• Content filtering: membatasi akses terhadap materi tertentu.
+• Web filtering software: membatasi akses ke situs web tertentu.
+
+Rangkuman
+Dalam menghadapi era digital saat ini harus dipahami berbagai macam kejahatan yang memanfaatkan media digital. Memverifikasi keabsahan berita yang beredar di internet adalah langkah tepat untuk menghindari penyebaran hoax.` },
+  { judul: "Rangkuman 6", tanggal: "", topik: "Tren TI", isi: "" },
+  { judul: "Makalah Input dan Output", tanggal: "", topik: "Tren TI", isi: `Makalah: Komponen Input dan Output Komputer
+Disusun oleh: Dimas Syahrul Miftahul Fitrian / NIM 2611501152
+
+Kata Pengantar
+Puji syukur penulis panjatkan atas selesainya makalah yang berjudul “Komponen Input dan Output Komputer” ini. Makalah ini disusun untuk memenuhi tugas mata kuliah Pengantar Teknologi Informasi. Isi makalah ini membahas komponen komputer untuk memasukkan data (input) dan komponen komputer untuk menampilkan informasi (output). Penulis menyadari bahwa makalah ini masih memiliki kekurangan, sehingga kritik dan saran sangat diharapkan.
+
+BAB I. PENDAHULUAN
+1.1 Latar Belakang
+Komponen input dan output pada komputer merupakan komponen untuk melakukan proses pengolahan data yang kemudian disajikan dalam bentuk informasi. Komponen input dan output ini semakin berkembang dan ergonomis. Oleh karena itu, pemahaman mengenai komponen komputer untuk memasukkan data dan komponen komputer untuk menampilkan informasi menjadi penting dalam mempelajari teknologi informasi.
+
+1.2 Rumusan Masalah
+• Apa yang dimaksud dengan input, dan komponen apa saja yang termasuk dalam kategori input device?
+• Apa yang dimaksud dengan output, dan komponen komputer apa saja yang digunakan untuk menampilkan informasi?
+
+1.3 Tujuan
+• Memahami komponen komputer untuk memasukkan data.
+• Memahami komponen komputer untuk menampilkan informasi.
+
+BAB II. PEMBAHASAN
+2.1 Komponen Komputer untuk Memasukkan Data (Input)
+Input adalah data dan instruksi yang dimasukkan ke dalam memori komputer. Alat masukan (input) yang umum digunakan meliputi keyboard, pointing devices, touch screens, pen input, motion input, voice input, video input, serta scanners and reading devices.
+
+a. Keyboard
+Keyboard adalah perangkat input yang berisi kunci yang ditekan pengguna untuk memasukkan data dan instruksi ke komputer atau perangkat mobile. Sebagian besar keyboard komputer desktop memiliki:
+• Typing area
+• Function keys
+• Toggle key
+• Navigation keys
+• Keyboard shortcut keys
+• Media control buttons
+• Internet control buttons
+Ada berbagai pilihan keyboard untuk komputer dan perangkat mobile, misalnya built-in laptop keyboard, clip-on tablet keyboard, dan on-screen keyboard. Selain itu terdapat keyboard ergonomis, yaitu keyboard dengan desain yang mengurangi kemungkinan cedera regangan dan pergelangan tangan berulang. Ergonomi menggabungkan kenyamanan, efisiensi, dan keamanan dalam desain tempat kerja.
+
+b. Perangkat Pointing
+• Pointer adalah simbol kecil di layar yang letak dan bentuknya berubah saat pengguna memindahkan perangkat penunjuk.
+• Mouse adalah perangkat penunjuk yang pas dan nyaman di bawah telapak tangan pengguna. Mouse terdiri dari mouse optik, mouse laser, dan mouse sentuh.
+• Touchpad adalah perangkat penunjuk persegi kecil datar yang sensitif terhadap tekanan dan gerak.
+• Trackball adalah alat penunjuk stasioner dengan bola di bagian atas atau sampingnya.
+
+c. Pen Input
+Dengan pen input, pengguna dapat menyentuhkan stylus atau pena digital pada permukaan datar untuk menulis, menggambar, atau membuat pilihan. Graphics tablet, disebut juga digitizer, adalah papan plastik elektronik yang mendeteksi dan mengubah gerakan gaya atau pena digital menjadi sinyal yang dikirim ke komputer.
+
+d. Motion, Voice, dan Video Input
+Input gerakan (motion input), terkadang disebut gesture recognition, memungkinkan pengguna membimbing elemen di layar menggunakan isyarat gerakan.
+
+Masukan suara (voice input) adalah proses memasukkan masukan dengan berbicara ke mikrofon. Pengenalan suara (voice recognition), juga disebut speech recognition, adalah kemampuan komputer atau perangkat seluler untuk membedakan kata-kata yang diucapkan.
+
+Masukan audio (audio input) adalah proses memasukkan suara ke dalam komputer, seperti suara bicara, musik, dan efek suara. Perangkat lunak produksi musik memungkinkan pengguna untuk merekam, menulis, mencampur, dan mengedit musik dan suara.
+
+Masukan video (video input) adalah proses pengambilan gambar full-motion dan menyimpannya di media penyimpanan komputer atau perangkat mobile. Prosesnya dimulai dengan merekam video pada sebuah digital video (DV) camera, kemudian video ditransfer ke komputer atau perangkat mobile.
+
+Webcam adalah tipe kamera digital video yang memungkinkan pengguna untuk:
+• Menangkap video dan gambar foto
+• Mengirim pesan email dengan lampiran video
+• Menyiarkan gambar langsung atau video melalui Internet
+• Melakukan konferensi video
+• Melakukan panggilan video
+Dengan webcam dapat dilakukan videoconference, yaitu pertemuan antara dua orang atau lebih yang terpisah secara geografis.
+
+e. Scanner dan Reading Device
+Pemindai (scanners) adalah perangkat masukan penginderaan ringan yang membaca teks dan gambar tercetak, kemudian menerjemahkan hasilnya ke dalam bentuk komputer yang dapat diproses. Pemindai flatbed bekerja dengan cara yang mirip dengan mesin fotokopi, namun flatbed membuat file dokumen di memori dan bukan salinan pada kertas.
+
+Pembaca optik (optic reader) adalah perangkat yang menggunakan sumber cahaya untuk membaca karakter, tanda, dan kode, kemudian mengubahnya menjadi data digital yang dapat diproses oleh komputer. Pembaca optik terdiri dari optical character recognition (OCR) dan optical mark recognition (OMR).
+
+Barcode reader menggunakan sinar laser untuk membaca kode barcode, sedangkan kode QR menyimpan informasi baik dalam arah vertikal maupun horizontal.
+
+RFID (radio frequency identification) menggunakan sinyal radio untuk berkomunikasi dengan tag yang ditempatkan di atau dilekatkan pada objek. Pembaca RFID membaca informasi tentang tag melalui gelombang radio. RFID dapat digunakan untuk:
+• Melacak pelari dalam lari maraton
+• Melacak lokasi orang dan barang lainnya
+• Memeriksa lift tiket pemain ski
+• Mengelola persediaan
+• Mengukur suhu dan tekanan ban pada kendaraan
+• Memeriksa buku perpustakaan
+• Menyediakan akses ke kamar atau bangunan
+• Mengelola pembelian
+• Melacak pembayaran saat kendaraan melewati bilik pada sistem jalan tol
+
+2.2 Komponen Komputer untuk Menampilkan Informasi (Output)
+Output (keluaran) adalah data yang telah diolah menjadi bentuk yang bermanfaat. Bentuk output meliputi teks, grafik, audio, dan video.
+
+a. Display
+Tampilan (displays) secara visual menyampaikan informasi teks, grafik, dan video. Monitor adalah perangkat yang digunakan untuk menampilkan informasi teks, grafik, dan video yang dikemas sebagai perangkat periferal yang terpisah.
+
+Kualitas tampilan terutama bergantung pada resolution, response time, brightness, dot pitch, dan contrast ratio. Monitor saat ini menggunakan sinyal digital untuk menghasilkan gambar. Untuk menampilkan gambar dengan kualitas terbaik, monitor harus disambungkan ke port DVI, port HDMI, atau DisplayPort.
+
+Pengguna rumahan terkadang menggunakan televisi digital (DTV) sebagai display. HDTV adalah bentuk paling maju dari televisi digital, dan Smart TV adalah HDTV yang mendukung Internet.
+
+b. Printer
+Printer menghasilkan teks dan grafik pada media fisik. Sebelum membeli printer, pengguna perlu mempertimbangkan beberapa hal, antara lain anggaran, kecepatan cetak, kebutuhan printer warna, biaya per halaman, kebutuhan mencetak grafik dan foto, jenis dan ukuran kertas, kapasitas baki kertas, kompatibilitas dengan komputer dan perangkat lunak, biaya persediaan seperti tinta, toner, dan kertas, koneksi jaringan, serta kemampuan pencetakan nirkabel.
+
+Printer nonimpact membentuk karakter dan grafis pada selembar kertas tanpa benar-benar membolongi kertas. Jenis-jenis printer meliputi:
+• Ink-jet printers
+• Photo printers
+• Laser printers
+• All-in-one printers
+• Thermal printers
+• Mobile printers
+• Label printers
+• Plotters
+• Large-format printers
+
+Printer ink-jet membentuk karakter dan grafis dengan menyemprotkan cairan tinta kecil ke selembar kertas, tersedia dalam warna atau hitam-putih, dan kecepatannya diukur dengan jumlah halaman per menit (ppm) yang bisa dicetak.
+
+Laser printer memiliki ciri high-speed, high-quality, serta tersedia dalam warna maupun hitam-putih.
+
+Printer all-in-one adalah satu perangkat yang mencetak, memindai, menyalin, dan ada juga yang dapat digunakan sebagai facsimile. Printer ini biasa disebut printer multifungsi.
+
+Printer 3-D menggunakan proses yang disebut manufaktur aditif untuk membuat objek dengan menambahkan bahan ke objek tiga dimensi, satu lapisan horizontal sekaligus.
+
+Mobile printer adalah printer bertenaga kecil dan ringan yang memungkinkan pengguna ponsel mencetak dari perangkat mobile.
+
+c. Komponen Output Lain
+• Headphone adalah speaker yang menutupi atau diletakkan di luar telinga.
+• Data projector adalah perangkat yang memproyeksikan teks dan gambar yang ditampilkan di layar komputer atau perangkat seluler ke layar yang lebih besar sehingga penonton dapat melihat gambar dengan jelas.
+• Interactive whiteboard adalah perangkat yang sensitif terhadap sentuhan, menyerupai papan penghapusan kering, yang menampilkan gambar pada layar komputer yang terhubung.
+• Joystick, roda, gamepad, dan pengontrol permainan penginderaan gerak dapat dianggap sebagai perangkat output saat mereka memasukkan umpan balik.
+
+BAB III. PENUTUP
+3.1 Kesimpulan
+• Input adalah data dan instruksi yang dimasukkan ke dalam memori komputer. Komponen input yang umum digunakan meliputi keyboard, pointing devices, touch screens, pen input, motion input, voice input, video input, serta scanners and reading devices.
+• Output adalah data yang telah diolah menjadi bentuk yang bermanfaat. Komponen output meliputi display (monitor, DTV, HDTV, Smart TV), printer, serta komponen output lain seperti headphone, data projector, dan interactive whiteboard.
+• Komponen input dan output pada komputer berfungsi untuk melakukan proses pengolahan data yang kemudian disajikan dalam bentuk informasi, dan komponen-komponen ini semakin berkembang dan ergonomis.
+
+Daftar Pustaka
+B. Shelly, Gary and E. Vermaat, Misty, “Discovering Computers 2016: Living In Digital World”, Shelly Cashman Series, Indiana, Juli 2016.` },
+  { judul: "Rangkuman 8", tanggal: "", topik: "Tren TI", isi: "" }
+];
+
+/* =====================================================
+   KODE HALAMAN (tidak perlu diubah)
+   ===================================================== */
+const grid = document.getElementById("grid");
+const cari = document.getElementById("cari");
+const filter = document.getElementById("filter");
+const hasil = document.getElementById("hasil");
+
+if (FOTO_URL) {
+  const img = document.createElement("img");
+  img.src = FOTO_URL; img.alt = "Foto Dimas";
+  document.getElementById("foto").replaceChildren(img);
+}
+
+// Isi pilihan filter dari daftar topik; disembunyikan jika hanya ada satu topik
+const topikUnik = [...new Set(RANGKUMAN.map(r => r.topik).filter(Boolean))];
+if (topikUnik.length > 1) {
+  filter.hidden = false;
+  filter.innerHTML = '<option value="">Semua topik</option>' +
+    topikUnik.map(t => `<option>${t}</option>`).join("");
+}
+
+function buatKartu(r) {
+  const el = document.createElement("article");
+  el.className = "kartu" + (r.isi.trim() ? "" : " kosong");
+  const h = document.createElement("h3"); h.textContent = r.judul;
+  const meta = document.createElement("div"); meta.className = "meta";
+  if (r.topik) { const t = document.createElement("span"); t.className = "tag"; t.textContent = r.topik; meta.append(t); }
+  const tgl = document.createElement("span"); tgl.textContent = r.tanggal || "Tanggal belum diisi"; meta.append(tgl);
+  const p = document.createElement("p"); p.className = "isi";
+  p.textContent = r.isi.trim() || "Rangkuman ini belum diisi.";
+  el.append(h, meta, p);
+  // Isi panjang dipotong 6 baris dengan tombol "Baca selengkapnya"
+  if (r.isi.length > 300) {
+    p.classList.add("potong");
+    const b = document.createElement("button");
+    b.className = "lebih"; b.type = "button"; b.textContent = "Baca selengkapnya";
+    b.addEventListener("click", () => {
+      const buka = p.classList.toggle("potong");
+      b.textContent = buka ? "Baca selengkapnya" : "Tutup";
+    });
+    el.append(b);
+  }
+  return el;
+}
+
+function tampilkan() {
+  const q = cari.value.trim().toLowerCase();
+  const f = filter.value;
+  const cocok = RANGKUMAN.filter(r =>
+    (!f || r.topik === f) &&
+    (!q || (r.judul + " " + r.isi).toLowerCase().includes(q)));
+  grid.replaceChildren(...cocok.map(buatKartu));
+  if (!cocok.length) {
+    const d = document.createElement("div"); d.className = "tak-ada";
+    d.textContent = "Tidak ada rangkuman yang cocok. Coba kata kunci lain.";
+    grid.append(d);
+  }
+  hasil.textContent = `Menampilkan ${cocok.length} dari ${RANGKUMAN.length} rangkuman`;
+}
+cari.addEventListener("input", tampilkan);
+filter.addEventListener("change", tampilkan);
+tampilkan();
+
+// Efek mengetik pada nama (dilewati jika pengunjung memilih "kurangi gerakan")
+(function () {
+  const h = document.getElementById("nama");
+  const teks = h.getAttribute("aria-label");
+  if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  const ketik = document.createElement("span"); ketik.className = "ketik";
+  const sisa = document.createElement("span"); sisa.style.visibility = "hidden";
+  h.replaceChildren(ketik, sisa);
+  let i = 0;
+  function langkah() {
+    ketik.textContent = teks.slice(0, i);
+    sisa.textContent = teks.slice(i);
+    if (i++ < teks.length) setTimeout(langkah, 70);
+    else setTimeout(() => ketik.style.borderRight = "none", 1800);
+  }
+  setTimeout(langkah, 400);
+})();
+</script>
+</body>
+</html>
