@@ -91,6 +91,55 @@ h1,h2,h3{font-family:"Bricolage Grotesque",system-ui,sans-serif;line-height:1.15
 .lebih:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
 .hasil{color:var(--muted);margin:0 0 16px;font-size:15px}
 .tak-ada{grid-column:1/-1;text-align:center;color:var(--muted);padding:40px 0}
+/* ===== MICRO INTERACTION ===== */
+/* ===== FITUR BARU ===== */
+@keyframes sekilas{to{background-position:-200% 0}}
+.skel{min-height:210px;gap:14px}
+.skel i{display:block;height:14px;border-radius:8px;background-size:200% 100%;animation:sekilas 1.2s linear infinite;
+  background-image:linear-gradient(90deg,var(--line) 25%,color-mix(in srgb,var(--line) 35%,var(--surface)) 50%,var(--line) 75%)}
+.skel .g1{height:22px;width:60%}.skel .g2{width:35%}.skel .g3{width:100%}.skel .g4{width:70%}
+mark{background:color-mix(in srgb,var(--pop) 35%,transparent);color:inherit;border-radius:4px;padding:0 2px}
+.prog{margin:0 0 16px;max-width:360px;font-size:14px;color:var(--muted)}
+.trek{height:8px;border-radius:99px;background:var(--accent-soft);margin-top:6px;overflow:hidden}
+#pisi{height:100%;width:0;border-radius:99px;background:linear-gradient(90deg,var(--accent),var(--pop));
+  transition:width 1.2s cubic-bezier(.2,.8,.2,1)}
+#tema{position:fixed;top:calc(14px + env(safe-area-inset-top,0px));right:16px;z-index:21;width:42px;height:42px;
+  border-radius:50%;border:1px solid var(--line);background:var(--surface);color:var(--ink);font-size:18px;cursor:pointer;
+  transition:transform .3s cubic-bezier(.34,1.56,.64,1)}
+#tema:hover{transform:rotate(25deg) scale(1.08)}
+#tema:active{transform:scale(.92)}
+#tema:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+@media (max-width:620px){.prog{margin-inline:auto}}
+@keyframes muncul{from{opacity:0;transform:translateY(22px) scale(.97)}}
+@keyframes pop{40%{transform:scale(1.15) rotate(-8deg)}70%{transform:scale(.95) rotate(4deg)}}
+.kartu{position:relative;overflow:hidden}
+.kartu>*{position:relative}
+.kartu::before{content:"";position:absolute;inset:0;pointer-events:none;opacity:0;transition:opacity .3s;
+  background:radial-gradient(260px circle at var(--mx,50%) var(--my,50%),color-mix(in srgb,var(--accent) 16%,transparent),transparent 70%)}
+.kartu:hover::before{opacity:1}
+.kartu.tunggu{opacity:0}
+.kartu.muncul{animation:muncul .6s cubic-bezier(.2,.8,.2,1) backwards;animation-delay:var(--d,0s)}
+.foto{cursor:pointer;transition:transform .35s cubic-bezier(.34,1.56,.64,1)}
+.foto:hover{transform:rotate(-6deg) scale(1.06)}
+.foto.pop{animation:pop .5s}
+.info span{transition:transform .2s,border-color .2s}
+.info span:hover{transform:translateY(-2px);border-color:var(--accent)}
+.lebih{transition:transform .15s,filter .2s}
+.lebih:active{transform:scale(.94)}
+.bar input{transition:flex-basis .3s,box-shadow .3s}
+.bar input:focus{flex-basis:340px;box-shadow:0 0 0 6px color-mix(in srgb,var(--accent) 18%,transparent)}
+#progres{position:fixed;top:env(safe-area-inset-top,0px);left:0;height:3px;width:100%;z-index:20;
+  transform:scaleX(0);transform-origin:left;background:linear-gradient(90deg,var(--accent),var(--pop))}
+#naik{position:fixed;right:20px;bottom:calc(20px + env(safe-area-inset-bottom,0px));width:46px;height:46px;
+  border-radius:50%;border:0;background:var(--accent);color:#fff;font:700 20px system-ui,sans-serif;cursor:pointer;
+  opacity:0;transform:translateY(16px) scale(.8);pointer-events:none;
+  transition:opacity .3s,transform .3s cubic-bezier(.34,1.56,.64,1);
+  box-shadow:0 10px 24px -8px color-mix(in srgb,var(--accent) 70%,transparent)}
+#naik.tampil{opacity:1;transform:none;pointer-events:auto}
+#naik.tampil:hover{transform:translateY(-3px)}
+#naik.tampil:active{transform:scale(.92)}
+#naik:focus-visible{outline:3px solid var(--pop);outline-offset:3px}
+@media (prefers-reduced-motion:reduce){.kartu.tunggu{opacity:1}.kartu.muncul{animation:none}.foto,.info span,#naik,#progres{transition:none}.foto:hover{transform:none}.foto.pop{animation:none}}
 footer{margin-top:56px;text-align:center;color:var(--muted);font-size:14px}
 
 @media (max-width:620px){
@@ -111,6 +160,7 @@ footer{margin-top:56px;text-align:center;color:var(--muted);font-size:14px}
       <span class="badge">Tugas Tren TI</span>
       <h1 id="nama" aria-label="Dimas Syahrul Miftahul Fitrian">Dimas Syahrul Miftahul Fitrian</h1>
       <p class="bio">Mahasiswa Teknik Informatika yang suka menuangkan ide lewat gambar dan menjelajahi dunia game. Halaman ini berisi rangkuman tugas mata kuliah Tren TI yang saya kerjakan.</p>
+      <div class="prog"><span id="ptek">Progres pengerjaan</span><div class="trek"><div id="pisi"></div></div></div>
       <div class="info">
         <span><b>NIM</b> 2611501152</span>
         <span><b>Prodi</b> Teknik Informatika</span>
@@ -150,7 +200,7 @@ const FOTO_URL = "";
    CARA MENAMBAH: salin satu blok { ... }, tempel di bawah blok terakhir,
    jangan lupa tanda koma di antara blok, lalu ubah isinya. */
 const RANGKUMAN = [
-  { judul: "Rangkuman 1", tanggal: "", topik: "Tren TI", isi: `Pengantar Teknologi Informasi – Modul 1 (materi 1)
+  { judul: "Rangkuman 1", tanggal: "13-11-2026", topik: "Tren TI", isi: `Pengantar Teknologi Informasi – Modul 1 (materi 1)
 
 1. Computer (Komputer)
 Komputer adalah perangkat elektronik yang bekerja berdasarkan instruksi yang tersimpan di dalam memorinya untuk mengolah data menjadi informasi.
@@ -226,7 +276,7 @@ Jenis jaringan:
 
 9. Technology Uses
 Teknologi digunakan dalam berbagai bidang kehidupan, seperti pendidikan, bisnis, komunikasi, kesehatan, dan hiburan.` },
-  { judul: "Rangkuman 2", tanggal: "", topik: "Tren TI", isi: `Pengantar Teknologi Informasi – Modul 2 (materi 2)
+  { judul: "Rangkuman 2", tanggal: "13-11-2027", topik: "Tren TI", isi: `Pengantar Teknologi Informasi – Modul 2 (materi 2)
 Connecting and Communicating Online: The Internet, Websites, and Media
 
 1. Internet
@@ -294,7 +344,7 @@ Contoh penerapan:
 • Tidak menyebarkan berita bohong.
 • Tidak menghina atau mengganggu pengguna lain.
 • Menghargai privasi orang lain.` },
-  { judul: "Rangkuman 3", tanggal: "", topik: "Tren TI", isi: `Rangkuman Modul 03: Computers and Mobile Devices
+  { judul: "Rangkuman 3", tanggal: "13-11-2027", topik: "Tren TI", isi: `Rangkuman Modul 03: Computers and Mobile Devices
 
 1. Computer and Mobile Devices
 • Laptops, tablets, and desktops
@@ -380,7 +430,7 @@ Untuk membantu mengurangi kemungkinan pencurian, perusahaan dan sekolah mengguna
 
 Rangkuman (Chapter Summary)
 Modul ini menyajikan karakteristik dan pedoman pembelian untuk laptop, tablet, desktop, smartphone, kamera digital, dan pemutar media portabel dan digital. Juga membahas server, superkomputer, terminal point-of-sale, ATM, kios swalayan, pembaca e-book, perangkat yang dapat dipakai, perangkat game, komputer tertanam, dan komputasi awan. Tak lupa disajikan berbagai port dan koneksi, cara untuk melindungi perangkat keras, dan masalah kesehatan dari penggunaan teknologi bersama dengan langkah-langkah pencegahan.` },
-  { judul: "Rangkuman 4", tanggal: "", topik: "Tren TI", isi: `Rangkuman Modul 04: Programs and Apps
+  { judul: "Rangkuman 4", tanggal: "13-11-2027", topik: "Tren TI", isi: `Rangkuman Modul 04: Programs and Apps
 
 1. Programs and Apps
 • Program atau perangkat lunak terdiri dari serangkaian instruksi terkait, disusun untuk tujuan bersama, yang memberi tahu komputer tugas apa yang harus dilakukan dan bagaimana melakukannya.
@@ -464,7 +514,7 @@ True / False (Tandai T untuk Benar dan F untuk Salah)
 8. File PDF dapat dilihat dan dicetak tanpa perangkat lunak yang membuat dokumen asli. (176)
 9. Militer dan maskapai penerbangan menggunakan simulasi CBT untuk melatih pilot untuk terbang dalam berbagai kondisi dan lingkungan. (184)
 10. Router juga dapat berfungsi sebagai firewall perangkat keras. (190)` },
-  { judul: "Rangkuman 5", tanggal: "", topik: "Tren TI", isi: `Rangkuman Modul 5: Digital Security, Ethics dan Privacy
+  { judul: "Rangkuman 5", tanggal: "13-11-2026", topik: "Tren TI", isi: `Rangkuman Modul 5: Digital Security, Ethics dan Privacy
 
 1.1 Resiko Keamanan Digital
 Resiko keamanan digital adalah kejadian atau tindakan yang dapat menyebabkan hilangnya atau kerusakan pada perangkat keras, perangkat lunak, data, informasi, atau kemampuan perangkat keras komputer atau perangkat seluler. Setiap tindakan ilegal yang melibatkan penggunaan komputer atau perangkat terkait umumnya disebut kejahatan komputer. Cybercrime adalah tindakan ilegal berbasis online atau berbasis internet.
@@ -559,9 +609,182 @@ Istilah lain terkait privasi:
 
 Rangkuman
 Dalam menghadapi era digital saat ini harus dipahami berbagai macam kejahatan yang memanfaatkan media digital. Memverifikasi keabsahan berita yang beredar di internet adalah langkah tepat untuk menghindari penyebaran hoax.` },
-  { judul: "Rangkuman 6", tanggal: "", topik: "Tren TI", isi: "" },
-  { judul: "Makalah Input dan Output", tanggal: "", topik: "Tren TI", isi: `Makalah: Komponen Input dan Output Komputer
+  { judul: "Rangkuman 6", tanggal: "13-11-2027", topik: "Tren TI", isi: ` Rangkuman Modul 6: Komponen Komputer
+  1 Komponen Komputer Dalam Casing
+Casing berisi perangkat elektronik komputer atau perangkat seluler dan melindungi dari kerusakan seluler.
+
+Di dalam casing terdapat beberapa komponen komputer antara lain:
+
+a. Motherboard
+Motherboard merupakan papan sirkuit utama computer, yaitu tempat terintegrasinya komponen computer yang lain seperti Ram, Processor dan lain lain.
+
+b. Processor
+Processor, disebut juga central processing unit (CPU), menafsirkan dan melaksanakan instruksi dasar yang mengoperasikan komputer. Processor berisi unit kontrol dan unit logika aritmatika (ALU).
+Multi-core processor adalah chip tunggal dengan dua atau lebih inti prosesor terpisah.
+The control unit / Unit kontrol adalah komponen prosesor yang mengarahkan dan mengkoordinasikan sebagian besar operasi di komputer.
+The arithmetic logic unit (ALU) / Unit logika aritmatika (ALU) melakukan aritmatika, perbandingan, dan operasi lainnya.
+Untuk setiap instruksi, processor mengulangi seperangkat empat operasi dasar, yang terdiri dari siklus mesin.
+Prosesor berisi register yang berfungsi menyimpan data dan instruksi untuk sementara.
+System clock mengontrol waktu semua operasi computer. System clock merupakan kecepatan processor untuk memproses instruksi, biasanya diukur dalam gigahertz (Ghz).
+Sebuah chip procesor menghasilkan panas yang dapat menyebabkan chip gagal berfungsi atau gagal, oleh sebab itu perlu pendinginan tambahan.
+The Steps in a Machine Cycle (dari gambar di materi):
+
+Fetch: the control unit fetches the calculation’s instructions and data from memory.
+Decode: the control unit decodes the calculation’s instructions and sends the instructions and data to the ALU.
+Execute: the ALU performs calculations on the data.
+Store: the results of the calculation are stored in memory.
+c. Memory
+Memori terdiri dari komponen elektronik yang menyimpan instruksi yang menunggu untuk dieksekusi oleh prosesor, data yang dibutuhkan oleh instruksi tersebut, dan hasil pemrosesan data.
+
+Menyimpan tiga (3) kategori item dasar:
+
+Sistem operasi dan program lainnya
+Aplikasi
+Data sedang diproses dan informasi yang dihasilkan
+Setiap lokasi dalam memori memiliki alamat, ukuran memori umumnya diukur dalam gigabita (GB) atau terabyte (TB).
+
+Komputer dan perangkat mobile terdiri dari 2 tipe memory, yaitu volatile dan non volatile:
+
+Volatile: memory yang isinya mudah berubah, data yang tersimpan akan hilang bila tidak dialiri listrik. Contoh: RAM.
+Non volatile: memory yang isinya tetap, data yang tersimpan tidak akan hilang walaupun tidak dialiri listrik/kehilangan daya. Contoh: ROM, Flash Memory, CMOS.
+RAM umumnya terdiri dari 2 komponen yaitu:
+
+Static RAM (SRAM)
+Dynamic RAM (DRAM)
+Table 6-1 Common DRAM Variations (dari gambar di materi):
+
+Name	Comments
+SDRAM (Synchronous DRAM)	Synchronized to the system clock; much faster than DRAM
+DDR SDRAM (Double Data Rate SDRAM)	Transfers data twice, instead of once, for each clock cycle; faster than SDRAM
+DDR2	Second generation of DDR; faster than DDR
+DDR3	Third generation of DDR; designed for computers with multi-core processors; faster than DDR2
+DDR4	Fourth generation of DDR; faster than DDR3
+RDRAM (Rambus DRAM)	Much faster than SDRAM
+Memory cache mempercepat proses komputer karena menyimpan instruksi dan data yang sering digunakan. Dari gambar di materi: L1 cache (bagian dari processor, akses tercepat), L2 cache (bagian dari processor, akses lebih lambat dari L1), L3 cache (chip terpisah antara processor dan RAM, akses lebih lambat dari L1 dan L2), dan RAM (akses paling lambat).
+Read-only memory (ROM) mengacu pada chip memori yang menyimpan data dan instruksi permanen.
+Flash Memory dapat dihapus secara elektonik dan dapat di program kembali.
+CMOS menggunakan baterai untuk menyimpan informasi saat komputer dalam keadaan mati.
+Waktu akses (Access time) merupakan waktu yang dibutuhkan oleh processor untuk membaca data dalam memory, biasanya diukur dalam nanosecond.
+Table 6-2 Access Time Terminology (dari gambar di materi):
+
+Term	Abbreviation	Speed
+Millisecond	ms	One-thousandth of a second
+Microsecond	µs	One-millionth of a second
+Nanosecond	ns	One-billionth of a second
+Picosecond	ps	One-trillionth of a second
+Dari gambar di materi: 10 million operations = 1 blink.
+
+d. Adapter
+Adapter merupakan komponen yang terdapat di dalam sistem unit desktop komputer atau komputer server yang memiliki fungsi dan/atau menyediakan koneksi ke perangkat lain, contoh: sound card dan video card. Di dalam mainboard terdapat expansion slot yang merupakan sebuah socket untuk menintegrasikan adapter.
+
+Table 6-3 Adapter Cards (dari gambar di materi):
+
+Type	Purpose
+Bluetooth	Enables Bluetooth connectivity
+MIDI	Connects to musical instruments
+Modem	Connects to transmission media, such as cable television lines or phone lines
+Network	Provides network connections, such as to an Ethernet port
+Sound	Connects to speakers or a microphone
+TV tuner	Allows viewing of digital television broadcasts on a monitor
+USB	Connects to high-speed USB ports
+Video	Provides enhanced graphics capabilities, such as accelerated processing or the ability to connect a second monitor
+Video capture	Connects to a video camera
+Dengan plug and play, komputer dapat langsung mengenali adapter yang telah terinstall.
+USB adapter memungkinkan komputer dapat melakukan koneksi dengan perangkat yang lain, perangkat tersebut merupakan perangkat yang dapat dikoneksikan dengan port USB.
+e. Baterai dan Power Supply
+Power supply dan adapter charger notebook memiliki fungsi untuk mengubah arus AC menjadi arus DC.
+Notebook dan perangkat mobile dapat berfungsi karena di suplai daya dari baterai yang dimiliki, baterai tersebut dapat di charge hingga beberapa kali dan biasanya merupakan baterai berjenis lithium ion.
+1.2 Representasi Data
+Salah satu unit dalam Central Processing Unit (CPU) sebuah sistem komputer sederhana adalah unit ALU (Arithmetic and Logic Unit). Ada empat operasi dasar yang dilakukan oleh unit ALU, yaitu ADDed (penjumlahan), SUBtract (pengurangan), MULtiplication (perkalian), dan DIVision (pembagian).
+
+Bila skema operasi arithmatika manusia menggunakan basis bilangan 10 (DECimal), maka mesin menggunakan basis bilangan biner (basis bilangan 2) yang disebut BINary. Agar memudahkan dalam melakukan perhitungan, terlebih harus dipahami konversi antara basis bilangan yang digunakan manusia (DECimal) dan basis bilangan yang digunakan mesin (BINary, OCTadecimal, HEXadecimal).
+
+Bahasa alamiah (bahasa manusia) mengenal sistem bilangan dalam basis 10 (disebut Desimal); sedangkan bahasa mesin mengenal sistem bilangan dalam tiga basis, yakni:
+
+Basis Bilangan 2 (Binary-digit, biasanya digunakan dalam komunikasi data)
+Basis Bilangan 8 (Octadecimal, biasanya digunakan dalam pengalamatan di memori)
+Basis Bilangan 16 (Hexadecimal, biasanya digunakan dalam pengalamatan di memori dan urusan pengkodean warna)
+Jenis basis bilangan:
+
+DECimal: basis bilangan ini terdiri dari rentang angka 0 s.d 9, selengkapnya 0,1,2,3,4,5,6,7,8,9. Dengan demikian dapat disimpulkan setelah angka 9 adalah gabungan dari reset angka 1 dengan rentang 0 s.d 9 dan seterusnya. Contoh: (23)10 = 2310 = DEC23; (907)10 = 90710 = DEC907.
+BINary digit / BIT (disebut juga Bilangan Biner): basis bilangan ini hanya terdiri dua bilangan yaitu 0, 1. Contoh: (101)2 = 1012 → panjang data = 3 bit; (0010)2 = 00102 → panjang data = 4 bit.
+OCTadecimal: basis bilangan ini terdiri dari rentang 0 s.d 7, selengkapnya 0,1,2,3,4,5,6,7. Contoh: (23)8 = 238 = 023.
+HEXadecimal: basis bilangan ini terdiri dari 15 deret yang terbagi dua, yakni 10 deret alphanumerik: 0 s.d 9 dan 5 deret alphabetikal: a s.d f. Deret alphabetikal disertakan karena secara teori matematika jam-jaman, sistem basis bilangan 16 tak lain adalah sistem jam-16, maka terdiri dari numerik 0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15. Dengan alasan mulai numerik 10 s.d 15 melebihi dua digit, maka digunakan deret alphabetikal untuk menggantikan kelima numerik ini. Contoh: (a2)16 = A216 = 0xA2 = 0xa2.
+Konversi Bilangan
+Ingat!
+
+Setiap bilangan dipangkatkan dengan 0 hasilnya 1
+Setiap bilangan dipangkatkan dengan 1 hasilnya bilangan itu sendiri
+Biner ke Desimal
+Rumus: DEC ← Σ aᵢ 2ⁱ ; i = 0,1,2,...,N ; a = 0 atau 1
+
+Contoh: (0101)₂ = (...)₁₀
+
+(0101)₂ = 02³ + 12² + 02¹ + 12⁰ = 0 + 4 + 0 + 1 = 5₁₀ = DEC5
+Oktadesimal (Oktal) ke Desimal
+Rumus: DEC ← Σ aᵢ 8ⁱ ; i = 0,1,2,...,N ; a = 0,1,2,3,4,5,6,7
+
+Contoh: (1105)₈ = (...)₁₀
+
+(1105)₈ = 18³ + 18² + 08¹ + 58⁰ = 512 + 64 + 0 + 5 = 581₁₀ = DEC581
+Heksadesimal (Heksal) ke Desimal
+Rumus: DEC ← Σ aᵢ 16ⁱ ; i = 0,1,2,...,N ; a = 0,1,2,3,4,5,6,7,8,9,a,...,e,f
+
+Contoh: (10c)₁₆ = (...)₁₀
+
+(10c)₁₆ = 116² + 016¹ + c16⁰ = 116² + 016¹ + 1216⁰ = 256 + 0 + 12 = 268₁₀ = DEC268
+Desimal ke bilangan basis 2
+
+Contoh: Tentukan DEC2121 dalam Biner. 2121₁₀ = (...)₂
+
+2121 ÷ 2 = 1060 sisa 1 ⇒ Least Significant Bit (LSB)
+1060 ÷ 2 = 530 sisa 0
+530 ÷ 2 = 265 sisa 0
+265 ÷ 2 = 132 sisa 1
+132 ÷ 2 = 66 sisa 0
+66 ÷ 2 = 33 sisa 0
+33 ÷ 2 = 16 sisa 1
+16 ÷ 2 = 8 sisa 0
+8 ÷ 2 = 4 sisa 0
+4 ÷ 2 = 2 sisa 0
+2 ÷ 2 = 1 sisa 0
+1 ÷ 2 = 0 sisa 1 ⇒ Most Significant Bit (MSB)
+Dituliskan: 1000 0100 1001₂
+Desimal ke bilangan basis 8
+
+Contoh: Tentukan DEC2121 dalam Oktal. 2121₁₀ = (...)₈
+
+2121 ÷ 8 = 265 sisa 1 ⇒ Least Significant Digit (LSD)
+265 ÷ 8 = 33 sisa 1
+33 ÷ 8 = 4 sisa 1
+4 ÷ 8 = 0 sisa 4 ⇒ Most Significant Digit (MSD)
+Dituliskan: 04111 atau 4111₈
+Desimal ke bilangan basis 16
+
+Contoh: Tentukan DEC2121 dalam Heksal. 2121₁₀ = (...)₁₆
+
+2121 ÷ 16 = 132 sisa 9 ⇒ Least Significant Digit (LSD)
+132 ÷ 16 = 8 sisa 4
+8 ÷ 16 = 0 sisa 8 ⇒ Most Significant Bit (MSB)
+Dituliskan: 0x849 atau 849₁₆
+Rangkuman
+Komputer ternyata memiliki berbagai macam komponen agar dapat menunjang aktifitas dari manusia, komponen tersebut saling melengkapi satu dengan yang lainnya. Komputer merupakan alat yang mengenal sistem bilangan berbasis dua (2) atau biasa disebut dengan binary.` },
+
+
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+  { judul: "Makalah Input dan Output", tanggal: "9-11-2027", topik: "Tren TI", isi: `Makalah: Komponen Input dan Output Komputer
 Disusun oleh: Dimas Syahrul Miftahul Fitrian / NIM 2611501152
+
 
 Kata Pengantar
 Puji syukur penulis panjatkan atas selesainya makalah yang berjudul “Komponen Input dan Output Komputer” ini. Makalah ini disusun untuk memenuhi tugas mata kuliah Pengantar Teknologi Informasi. Isi makalah ini membahas komponen komputer untuk memasukkan data (input) dan komponen komputer untuk menampilkan informasi (output). Penulis menyadari bahwa makalah ini masih memiliki kekurangan, sehingga kritik dan saran sangat diharapkan.
@@ -685,7 +908,373 @@ BAB III. PENUTUP
 
 Daftar Pustaka
 B. Shelly, Gary and E. Vermaat, Misty, “Discovering Computers 2016: Living In Digital World”, Shelly Cashman Series, Indiana, Juli 2016.` },
-  { judul: "Rangkuman 8", tanggal: "", topik: "Tren TI", isi: "" }
+  { judul: "UTS", tanggal: "9-11-2027", topik: "Tren TI", isi: `UTS
+   1. Scanner
+
+Scanner adalah alat untuk memindai dokumen atau foto dari kertas menjadi file digital yang bisa disimpan di komputer.
+
+2. Monitor
+
+Monitor adalah perangkat komputer yang berfungsi menampilkan gambar, tulisan, video, dan informasi dari komputer.
+
+3. Modem
+
+Modem adalah alat yang digunakan untuk menghubungkan komputer atau perangkat lain ke internet.
+
+4. Flashdisk
+
+Flashdisk adalah alat kecil yang digunakan untuk menyimpan dan memindahkan data seperti foto, video, dan dokumen.
+
+5. Data Projector
+
+Data projector adalah alat yang digunakan untuk menampilkan gambar atau tampilan komputer ke layar yang lebih besar. Biasanya digunakan untuk presentasi.
+
+6. Touch Pad
+
+Touchzpad adalah bagian pada laptop yang digunakan untuk menggerakkan kursor tanpa menggunakan mouse.
+
+7. Scanner
+
+Scanner adalah alat untuk mengubah dokumen atau gambar yang berbentuk fisik menjadi file digital.
+
+8. Bar Code Reader
+
+Bar code reader adalah alat untuk membaca kode garis (barcode) pada produk. Biasanya digunakan di kasir supermarket.
+
+9. Tape
+
+Tape adalah media penyimpanan data yang menggunakan pita magnetik. Biasanya digunakan untuk menyimpan dan mencadangkan data.
+
+10. Modem
+
+Modem adalah perangkat yang membantu menghubungkan komputer ke jaringan internet.
+
+11. Data Projector
+
+Data projector adalah alat untuk menampilkan gambar, video, atau presentasi dari komputer ke layar yang lebih besar.
+
+12. Sound Card
+
+Sound card adalah perangkat komputer yang berfungsi mengolah suara agar komputer bisa menghasilkan atau merekam suara melalui speaker dan mikrofon.
+
+13. Personal Digital Assistant (PDA)
+
+PDA adalah perangkat elektronik kecil yang digunakan untuk membantu mengatur kegiatan sehari-hari, seperti mencatat jadwal, menyimpan kontak, dan membuat catatan.
+
+14. Personal Data Assistant
+
+Istilah ini kemungkinan merupakan kesalahan penulisan dari Personal Digital Assistant (PDA), yaitu perangkat kecil untuk membantu menyimpan informasi dan mengatur kegiatan sehari-hari.
+
+15. Person Digital Assistant
+
+Istilah ini juga kemungkinan merupakan kesalahan penulisan Personal Digital Assistant (PDA).
+
+16. Program Digital Assistant
+
+Istilah ini bukan nama perangkat komputer yang umum. Kemungkinan yang dimaksud adalah Personal Digital Assistant (PDA), yaitu alat elektronik untuk membantu mengatur informasi dan kegiatan sehari-hari
+
+B. Profesi dan Keamanan Komputer
+
+17. Programmer
+
+Programmer adalah orang yang membuat program atau aplikasi komputer menggunakan bahasa pemrograman seperti Java, PHP, dan Python.
+
+18. Hacker
+
+Hacker adalah orang yang memiliki kemampuan dalam bidang komputer dan jaringan serta memahami cara kerja sistem. Kemampuannya dapat digunakan untuk tujuan positif maupun negatif.
+
+19. Cracker
+
+Cracker adalah orang yang mencoba membobol sistem keamanan komputer atau perangkat lunak untuk tujuan yang tidak diizinkan.
+
+20. Central Processing Unit (CPU)
+
+CPU adalah bagian utama komputer yang bertugas mengolah data dan menjalankan perintah dari program.
+
+21. Communication Processing Unit
+
+Istilah ini bukan nama komponen komputer standar yang umum. Secara harfiah, istilah ini mengarah pada unit yang menangani proses komunikasi data.
+
+22. Complication Processing Unit
+
+Istilah ini bukan istilah standar dalam perangkat keras komputer. Kemungkinan terdapat kesalahan penulisan pada soal.
+
+23. Central Production Unit
+
+Istilah ini bukan nama komponen komputer standar. Kemungkinan yang dimaksud adalah Central Processing Unit (CPU).
+
+24. E-mail
+
+E-mail adalah surat elektronik yang digunakan untuk mengirim dan menerima pesan melalui internet. Contohnya Gmail dan Yahoo Mail.
+
+25. Hacking
+
+Hacking adalah kegiatan mempelajari, menguji, atau mengakses sistem komputer dan jaringan. Hacking dapat dilakukan untuk menguji keamanan jika memiliki izin.
+
+26. Cracking
+
+Cracking adalah kegiatan membobol keamanan komputer atau perangkat lunak tanpa izin, misalnya membobol akun orang lain.
+
+27. Netiquette
+
+Netiquette adalah aturan atau tata krama saat berkomunikasi di internet. Contohnya menggunakan bahasa yang sopan, tidak menghina orang lain, dan tidak menyebarkan berita palsu.
+
+C. Ukuran Penyimpanan Data
+
+28. Zeta Byte (ZB)
+
+Zettabyte (ZB) adalah satuan ukuran penyimpanan data digital yang sangat besar. 1 ZB sama dengan sekitar 1 triliun GB dalam sistem desimal.
+
+29. Mega Byte (MB)
+
+Megabyte (MB) adalah satuan ukuran data. Biasanya digunakan untuk mengukur ukuran foto, dokumen, dan file. 1 MB = 1.024 KB dalam perhitungan komputer tradisional.
+
+30. Giga Byte (GB)
+
+Gigabyte (GB) adalah satuan penyimpanan data yang lebih besar dari MB. Biasanya digunakan untuk mengukur kapasitas flashdisk, memori HP, dan penyimpanan komputer.
+
+31. Tera Byte (TB)
+
+Terabyte (TB) adalah satuan penyimpanan data yang lebih besar dari GB. Biasanya digunakan untuk mengukur kapasitas hard disk komputer.
+
+32. Bit
+
+Bit adalah satuan data terkecil dalam komputer yang memiliki nilai 0 atau 1.
+
+33. Byte
+
+Byte adalah satuan data yang terdiri dari 8 bit. Biasanya digunakan untuk mengukur ukuran file.
+
+34. Character
+
+Character adalah satu karakter berupa huruf, angka, atau simbol. Contohnya A, B, 1, 2, dan tanda baca.
+
+35. Kilo Byte (KB)
+
+Kilobyte adalah satuan ukuran data. Dalam perhitungan komputer tradisional, 1 KB = 1.024 Byte.
+
+36. Kilo Byte (KB)
+
+Kilobyte adalah satuan penyimpanan data yang biasanya digunakan untuk mengukur ukuran dokumen atau file berukuran kecil.
+
+37. Kilo Bit (Kb)
+
+Kilobit adalah satuan ukuran data yang terdiri dari 1.000 bit dalam sistem desimal. Biasanya digunakan untuk mengukur kecepatan internet.
+
+38. Bit
+
+Bit merupakan singkatan dari Binary Digit, yaitu satuan data terkecil yang hanya memiliki nilai 0 atau 1.
+
+39. 256 Byte
+
+256 Byte adalah jumlah data yang terdiri dari 256 satuan Byte. Jika dikonversikan menjadi bit, jumlahnya adalah 2.048 bit.
+
+40. 512 Byte
+
+512 Byte adalah jumlah data yang terdiri dari 512 satuan Byte atau 4.096 bit.
+
+41. 1024 Byte
+
+1024 Byte sama dengan 1 Kilobyte (KB) dalam perhitungan komputer tradisional.
+
+D. Jenis File dan Alamat Internet
+
+42. .mp3
+
+MP3 adalah format file audio yang digunakan untuk menyimpan musik atau rekaman suara.
+
+43. .docx
+
+DOCX adalah format file dokumen yang biasanya digunakan oleh Microsoft Word untuk membuat surat, laporan, dan tugas.
+
+44. .xls
+
+XLS adalah format file spreadsheet yang digunakan oleh Microsoft Excel untuk mengolah data dan membuat tabel.
+
+45. .psd
+
+PSD adalah format file gambar yang digunakan oleh Adobe Photoshop. Format ini dapat menyimpan gambar beserta lapisan atau layer-nya.
+
+**46. www.http://yahoo.com**
+
+Penulisan alamat tersebut tidak tepat karena susunan protokol dan nama domain terbalik. Penulisan yang benar adalah https://www.yahoo.com.
+
+**47. http://mail~yahoo.com**
+
+Alamat tersebut tidak tepat jika yang dimaksud adalah layanan Yahoo Mail karena menggunakan tanda tilde (~). Alamat Yahoo Mail yang benar adalah https://mail.yahoo.com.
+
+48. www.mail.yahoo.com
+
+Alamat tersebut merupakan bentuk nama host atau subdomain. Jika digunakan sebagai alamat website, dapat ditulis https://www.mail.yahoo.com, tetapi tidak selalu menjadi alamat layanan Yahoo Mail yang resmi.
+
+**49. http://id.yahoo.com**
+
+Alamat tersebut menggunakan protokol HTTP dan subdomain id.yahoo.com. Penulisan alamat website yang lebih aman menggunakan HTTPS jika tersedia.
+
+E. Perangkat Input dan Output
+
+50. Scanner
+
+Scanner adalah alat untuk memindai dokumen atau foto menjadi file digital.
+
+51. Monitor
+
+Monitor adalah perangkat output yang digunakan untuk menampilkan hasil pengolahan data dari komputer.
+
+52. Barcode Reader
+
+Barcode reader adalah alat untuk membaca kode batang pada barang, biasanya digunakan di toko atau supermarket.
+
+53. Touch Screen
+
+Touch screen adalah layar yang dapat disentuh untuk menjalankan perintah pada perangkat. Contohnya layar smartphone dan tablet.
+
+54. Data Projector
+
+Data projector adalah alat untuk menampilkan gambar atau video dari komputer ke layar yang lebih besar.
+
+55. Printer
+
+Printer adalah perangkat output yang digunakan untuk mencetak dokumen, gambar, atau foto ke atas kertas.
+
+56. Speaker
+
+Speaker adalah perangkat output yang berfungsi mengeluarkan suara dari komputer, seperti musik, video, dan suara lainnya.
+
+57. Bar Code Reader
+
+Bar code reader adalah alat elektronik yang digunakan untuk membaca kode batang pada produk dan mengirimkan informasinya ke komputer.
+
+F. ccTLD dan gTLD dalam Dunia Internet
+
+62. Jelaskan secara lengkap dan berikan contohnya tentang ccTLD dan gTLD dalam dunia internet.
+
+ccTLD (Country Code Top-Level Domain) adalah nama domain tingkat atas yang digunakan sebagai identitas suatu negara. Biasanya terdiri dari dua huruf.
+
+Contoh:
+
+- .id = Indonesia.
+
+- .my = Malaysia.
+
+- .sg = Singapura.
+
+- .jp = Jepang.
+
+- .uk = Inggris.
+
+gTLD (Generic Top-Level Domain) adalah nama domain tingkat atas yang digunakan secara umum dan tidak menunjukkan negara tertentu.
+
+Contoh:
+
+- .com = Umumnya untuk keperluan komersial.
+
+- .org = Umumnya untuk organisasi.
+
+- .net = Awalnya untuk jaringan, sekarang digunakan secara umum.
+
+- .edu = Umumnya untuk lembaga pendidikan yang memenuhi persyaratan.
+
+- .info = Untuk website informasi.
+
+- .biz = Untuk keperluan bisnis.
+
+Kesimpulan: Perbedaan ccTLD dan gTLD terletak pada penggunaannya. ccTLD menunjukkan identitas negara, sedangkan gTLD digunakan berdasarkan kategori atau tujuan website.
+
+G. Bagian dan Fungsi CPU
+
+63. Control Unit (CU)
+
+Control Unit adalah bagian CPU yang bertugas mengatur dan mengendalikan jalannya proses komputer agar setiap bagian bekerja sesuai perintah.
+
+64. Buffer dalam CPU
+
+Buffer adalah tempat penyimpanan sementara yang digunakan untuk menampung data saat sedang dipindahkan atau diproses oleh komputer.
+
+65. Arithmetic and Logic Unit (ALU)
+
+ALU adalah bagian CPU yang bertugas melakukan perhitungan matematika dan operasi logika. Contohnya penjumlahan, pengurangan, dan perbandingan angka.
+
+66. Register
+
+Register adalah tempat penyimpanan sementara berukuran kecil di dalam CPU yang digunakan untuk menyimpan data dan instruksi yang sedang diproses.
+
+H. Bahasa Pemrograman, Database, dan Sistem Operasi
+
+67. Oracle
+
+Oracle adalah perangkat lunak sistem manajemen database yang digunakan untuk menyimpan, mengelola, dan mengolah data dalam jumlah besar.
+
+68. MySQL
+
+MySQL adalah sistem manajemen database yang digunakan untuk menyimpan dan mengatur data. Contohnya digunakan untuk menyimpan data pengguna pada website.
+
+69. Java
+
+Java adalah bahasa pemrograman yang digunakan untuk membuat aplikasi komputer, aplikasi Android, dan berbagai program lainnya.
+
+70. UNIX
+
+UNIX adalah sistem operasi komputer yang banyak digunakan pada server dan komputer. Sistem ini dikenal stabil dan mendukung banyak pengguna.
+
+71. Perl
+
+Perl adalah bahasa pemrograman yang sering digunakan untuk mengolah teks, mengelola data, dan membuat program otomatis.
+
+72. MS-Office 2000
+
+MS-Office 2000 adalah kumpulan aplikasi perkantoran dari Microsoft yang dirilis pada tahun 1999. Contohnya Microsoft Word, Excel, dan PowerPoint.
+
+73. Xenix
+
+Xenix adalah sistem operasi turunan UNIX yang dikembangkan oleh Microsoft dan digunakan pada komputer untuk menjalankan berbagai program.
+
+74. PHP
+
+PHP adalah bahasa pemrograman yang banyak digunakan untuk membuat website dinamis. Contohnya digunakan untuk membuat halaman login dan mengelola data website.
+
+I. Istilah dan Bagian Alamat Website
+
+75. HTTP://
+
+HTTP adalah singkatan dari Hypertext Transfer Protocol, yaitu aturan komunikasi yang digunakan untuk mengirim dan menerima data antara browser dan server website.
+
+76. WWW
+
+WWW adalah singkatan dari World Wide Web, yaitu kumpulan halaman website yang dapat diakses melalui internet.
+
+77. .co.id
+
+.co.id adalah nama domain yang biasanya digunakan oleh perusahaan atau badan usaha yang berada di Indonesia.
+
+78. .tv
+
+.tv adalah domain negara Tuvalu yang juga banyak digunakan oleh website televisi, video, dan hiburan.
+
+79. .idn
+
+IDN adalah singkatan dari Internationalized Domain Name, yaitu nama domain yang dapat menggunakan karakter selain huruf Latin dasar, seperti karakter bahasa tertentu.
+
+80. co adalah domain negara Kolombia yang juga banyak digunakan sebagai domain untuk perusahaan atau bisnis.
+
+81. .to adalah domain negara Tonga yang juga sering digunakan untuk berbagai jenis website.
+
+82. www.news.tv
+
+Contoh alamat website yang menggunakan subdomain news dan domain .tv. Biasanya dapat digunakan untuk website berita atau informasi.
+
+83. www.news.com.sg
+
+Contoh alamat website yang menggunakan domain .com.sg, yaitu domain komersial yang berkaitan dengan Singapura.
+
+84. www.news.com.my
+
+Contoh alamat website yang menggunakan domain .com.my, yaitu domain komersial yang berkaitan dengan Malaysia.
+
+85. www.news.biz
+
+Contoh alamat website yang menggunakan domain .biz, yaitu domain yang biasanya digunakan untuk keperluan bisnis.`
+ }
 ];
 
 /* =====================================================
@@ -717,8 +1306,13 @@ function buatKartu(r) {
   const meta = document.createElement("div"); meta.className = "meta";
   if (r.topik) { const t = document.createElement("span"); t.className = "tag"; t.textContent = r.topik; meta.append(t); }
   const tgl = document.createElement("span"); tgl.textContent = r.tanggal || "Tanggal belum diisi"; meta.append(tgl);
+  if (r.isi.trim()) {
+    const w = document.createElement("span");
+    w.textContent = "± " + Math.max(1, Math.round(r.isi.trim().split(/\s+/).length / 200)) + " menit baca";
+    meta.append(w);
+  }
   const p = document.createElement("p"); p.className = "isi";
-  p.textContent = r.isi.trim() || "Rangkuman ini belum diisi.";
+  p.append(r.isi.trim() ? sorot(r.isi) : "Rangkuman ini belum diisi.");
   el.append(h, meta, p);
   // Isi panjang dipotong 6 baris dengan tombol "Baca selengkapnya"
   if (r.isi.length > 300) {
@@ -747,10 +1341,112 @@ function tampilkan() {
     grid.append(d);
   }
   hasil.textContent = `Menampilkan ${cocok.length} dari ${RANGKUMAN.length} rangkuman`;
+  pantau();
 }
 cari.addEventListener("input", tampilkan);
+
+/* ===== MICRO INTERACTION ===== */
+const kurangiGerak = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+// Kartu muncul pelan saat discroll ke layar
+const io = ("IntersectionObserver" in window && !kurangiGerak) ? new IntersectionObserver(es => {
+  es.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.remove("tunggu"); e.target.classList.add("muncul"); io.unobserve(e.target); }
+  });
+}, { threshold: 0.08 }) : null;
+function pantau() {
+  if (!io) return;
+  grid.querySelectorAll(".kartu").forEach((k, i) => {
+    k.style.setProperty("--d", (i % 3) * 0.08 + "s");
+    k.classList.add("tunggu");
+    io.observe(k);
+  });
+}
+
+// Cahaya lembut yang mengikuti kursor di kartu
+grid.addEventListener("pointermove", e => {
+  const k = e.target.closest(".kartu");
+  if (!k) return;
+  const r = k.getBoundingClientRect();
+  k.style.setProperty("--mx", (e.clientX - r.left) + "px");
+  k.style.setProperty("--my", (e.clientY - r.top) + "px");
+});
+
+// Garis progres scroll dan tombol kembali ke atas
+const bar = document.createElement("div"); bar.id = "progres";
+const naik = document.createElement("button");
+naik.id = "naik"; naik.type = "button"; naik.textContent = "↑";
+naik.setAttribute("aria-label", "Kembali ke atas");
+document.body.append(bar, naik);
+function gulir() {
+  const h = document.documentElement.scrollHeight - innerHeight;
+  bar.style.transform = `scaleX(${h > 0 ? scrollY / h : 0})`;
+  naik.classList.toggle("tampil", scrollY > 400);
+}
+addEventListener("scroll", gulir, { passive: true });
+gulir();
+naik.addEventListener("click", () => scrollTo({ top: 0, behavior: kurangiGerak ? "auto" : "smooth" }));
+
+// Sorot kata yang dicari di dalam isi rangkuman
+function sorot(teks) {
+  const q = cari.value.trim();
+  const f = document.createDocumentFragment();
+  if (!q) { f.append(teks); return f; }
+  const lo = teks.toLowerCase(), ql = q.toLowerCase();
+  let i = 0, j;
+  while ((j = lo.indexOf(ql, i)) !== -1) {
+    f.append(teks.slice(i, j));
+    const m = document.createElement("mark");
+    m.textContent = teks.slice(j, j + q.length);
+    f.append(m);
+    i = j + q.length;
+  }
+  f.append(teks.slice(i));
+  return f;
+}
+
+// Progres pengerjaan (otomatis dari jumlah rangkuman yang sudah terisi)
+const terisi = RANGKUMAN.filter(r => r.isi.trim()).length;
+document.getElementById("ptek").textContent = `Progres pengerjaan: ${terisi} dari ${RANGKUMAN.length} rangkuman terisi`;
+setTimeout(() => { document.getElementById("pisi").style.width = (terisi / RANGKUMAN.length * 100) + "%"; }, 300);
+
+// Tombol ganti tema terang/gelap (pilihan diingat di browser)
+const tema = document.createElement("button");
+tema.id = "tema"; tema.type = "button";
+function setTema(t, simpan) {
+  document.documentElement.setAttribute("data-theme", t);
+  tema.textContent = t === "dark" ? "\u2600" : "\u263E";
+  tema.setAttribute("aria-label", t === "dark" ? "Ganti ke tema terang" : "Ganti ke tema gelap");
+  if (simpan) { try { localStorage.setItem("tema", t); } catch (e) {} }
+}
+let temaAwal = null;
+try { temaAwal = localStorage.getItem("tema"); } catch (e) {}
+if (!temaAwal) temaAwal = matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+setTema(temaAwal, false);
+tema.addEventListener("click", () =>
+  setTema(document.documentElement.getAttribute("data-theme") === "dark" ? "light" : "dark", true));
+document.body.append(tema);
+
+// Foto profil bergoyang saat diklik
+const fotoEl = document.getElementById("foto");
+fotoEl.addEventListener("click", () => {
+  fotoEl.classList.remove("pop"); void fotoEl.offsetWidth; fotoEl.classList.add("pop");
+});
 filter.addEventListener("change", tampilkan);
-tampilkan();
+
+// Skeleton shimmer sebentar sebelum kartu tampil
+(function () {
+  if (kurangiGerak) { tampilkan(); return; }
+  const sk = [];
+  for (let i = 0; i < RANGKUMAN.length; i++) {
+    const s = document.createElement("div");
+    s.className = "kartu skel";
+    s.innerHTML = '<i class="g1"></i><i class="g2"></i><i class="g3"></i><i class="g3"></i><i class="g4"></i>';
+    sk.push(s);
+  }
+  grid.replaceChildren(...sk);
+  setTimeout(tampilkan, 700);
+})();
 
 // Efek mengetik pada nama (dilewati jika pengunjung memilih "kurangi gerakan")
 (function () {
