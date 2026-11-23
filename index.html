@@ -84,7 +84,7 @@ h1,h2,h3{font-family:"Bricolage Grotesque",system-ui,sans-serif;line-height:1.15
 .tag{background:var(--accent-soft);color:var(--accent);font-weight:600;border-radius:999px;padding:1px 10px}
 .isi{margin:0;white-space:pre-line}
 .kosong .isi{color:var(--muted);font-style:italic}
-.isi.potong{display:-webkit-box;-webkit-line-clamp:6;line-clamp:6;-webkit-box-orient:vertical;overflow:hidden}
+.isi.potong{max-height:9.6em;overflow:hidden;-webkit-mask-image:linear-gradient(#000 55%,transparent);mask-image:linear-gradient(#000 55%,transparent)}
 .lebih{align-self:flex-start;font:600 15px inherit;font-family:inherit;color:var(--accent);background:var(--accent-soft);
   border:0;border-radius:999px;padding:6px 16px;cursor:pointer}
 .lebih:hover{filter:brightness(.95)}
@@ -93,11 +93,6 @@ h1,h2,h3{font-family:"Bricolage Grotesque",system-ui,sans-serif;line-height:1.15
 .tak-ada{grid-column:1/-1;text-align:center;color:var(--muted);padding:40px 0}
 /* ===== MICRO INTERACTION ===== */
 /* ===== FITUR BARU ===== */
-@keyframes sekilas{to{background-position:-200% 0}}
-.skel{min-height:210px;gap:14px}
-.skel i{display:block;height:14px;border-radius:8px;background-size:200% 100%;animation:sekilas 1.2s linear infinite;
-  background-image:linear-gradient(90deg,var(--line) 25%,color-mix(in srgb,var(--line) 35%,var(--surface)) 50%,var(--line) 75%)}
-.skel .g1{height:22px;width:60%}.skel .g2{width:35%}.skel .g3{width:100%}.skel .g4{width:70%}
 mark{background:color-mix(in srgb,var(--pop) 35%,transparent);color:inherit;border-radius:4px;padding:0 2px}
 .prog{margin:0 0 16px;max-width:360px;font-size:14px;color:var(--muted)}
 .trek{height:8px;border-radius:99px;background:var(--accent-soft);margin-top:6px;overflow:hidden}
@@ -114,9 +109,6 @@ mark{background:color-mix(in srgb,var(--pop) 35%,transparent);color:inherit;bord
 @keyframes pop{40%{transform:scale(1.15) rotate(-8deg)}70%{transform:scale(.95) rotate(4deg)}}
 .kartu{position:relative;overflow:hidden}
 .kartu>*{position:relative}
-.kartu::before{content:"";position:absolute;inset:0;pointer-events:none;opacity:0;transition:opacity .3s;
-  background:radial-gradient(260px circle at var(--mx,50%) var(--my,50%),color-mix(in srgb,var(--accent) 16%,transparent),transparent 70%)}
-.kartu:hover::before{opacity:1}
 .kartu.tunggu{opacity:0}
 .kartu.muncul{animation:muncul .6s cubic-bezier(.2,.8,.2,1) backwards;animation-delay:var(--d,0s)}
 .foto{cursor:pointer;transition:transform .35s cubic-bezier(.34,1.56,.64,1)}
@@ -147,6 +139,74 @@ footer{margin-top:56px;text-align:center;color:var(--muted);font-size:14px}
   .info{justify-content:center}
 }
 @media (prefers-reduced-motion:reduce){.kartu{transition:none}.kartu:hover{transform:none}.profil h1,.badge::before{animation:none}}
+/* ===== BAR RANGKUMAN (TAB) ===== */
+.tabs{display:flex;gap:8px;overflow-x:auto;padding:4px 20px 14px 2px;margin:0 -2px 6px;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{flex:0 0 auto;font:600 15px "Nunito Sans",system-ui,sans-serif;color:var(--muted);background:var(--surface);
+  border:1px solid var(--line);border-radius:999px;padding:9px 18px;cursor:pointer;white-space:nowrap;
+  transition:transform .15s,background-color .25s,color .25s,border-color .25s,box-shadow .25s}
+.tab:hover{border-color:var(--accent);color:var(--accent)}
+.tab:active{transform:scale(.95)}
+.tab[aria-selected="true"]{color:#fff;background:linear-gradient(135deg,var(--accent),var(--pop));
+  border-color:transparent;box-shadow:0 8px 20px -10px var(--accent)}
+.tab:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.grid.satu{grid-template-columns:1fr}
+/* ===== PENDIDIKAN ===== */
+.pend{margin-top:44px}
+.pend h2{font-size:28px;margin-bottom:18px}
+.garis{list-style:none;margin:0;padding:0 0 0 26px;position:relative;display:grid;gap:14px}
+.garis::before{content:"";position:absolute;left:7px;top:8px;bottom:8px;width:2px;border-radius:2px;opacity:.6;
+  background:linear-gradient(var(--accent),var(--pop))}
+.butir{position:relative;background:var(--surface);border:1px solid var(--line);border-radius:20px;
+  padding:16px 20px;display:flex;flex-direction:column;gap:2px;transition:border-color .2s,transform .2s}
+.butir:hover{border-color:var(--accent);transform:translateX(4px)}
+.butir::before{content:"";position:absolute;left:-26px;top:22px;width:16px;height:16px;border-radius:50%;
+  box-sizing:border-box;background:var(--surface);border:3px solid var(--accent)}
+.butir:first-child::before{background:var(--accent)}
+.butir .jenjang{font-size:13px;font-weight:600;color:var(--accent);text-transform:uppercase;letter-spacing:.06em}
+.butir h3{font-size:20px}
+.butir .rinci{color:var(--muted);font-size:15px}
+.butir.kosong h3{color:var(--muted);font-style:italic;font-weight:600}
+.butir.tunggu{opacity:0}
+.butir.muncul{animation:muncul .6s cubic-bezier(.2,.8,.2,1) backwards;animation-delay:var(--d,0s)}
+@media (prefers-reduced-motion:reduce){.butir.muncul{animation:none}.butir:hover{transform:none}}
+/* ===== PROYEK & SERTIFIKAT ===== */
+.galeri{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,300px),1fr));gap:18px}
+.item{background:var(--surface);border:1px solid var(--line);border-radius:22px;overflow:hidden;
+  display:flex;flex-direction:column;transition:border-color .2s,transform .2s,box-shadow .2s}
+.item:hover{border-color:var(--accent);transform:translateY(-4px);
+  box-shadow:0 18px 36px -18px color-mix(in srgb,var(--accent) 55%,transparent)}
+.gbr{display:block;width:100%;padding:0;border:0;background:var(--accent-soft);overflow:hidden;aspect-ratio:16/10}
+.gbr img{display:block;width:100%;height:100%;object-fit:cover;transition:transform .5s cubic-bezier(.2,.8,.2,1)}
+.item:hover .gbr img{transform:scale(1.05)}
+button.gbr{cursor:zoom-in}
+.item .badan{padding:18px 20px 20px;display:flex;flex-direction:column;gap:8px;flex:1}
+.item h3{font-size:20px}
+.item .desk{margin:0;color:var(--muted);font-size:15px}
+.item .tags{display:flex;flex-wrap:wrap;gap:6px}
+.item .aksi{display:flex;flex-wrap:wrap;gap:8px;margin-top:auto;padding-top:6px}
+.btn{font:600 14px "Nunito Sans",system-ui,sans-serif;text-decoration:none;color:#fff;
+  background:linear-gradient(135deg,var(--accent),var(--pop));border-radius:999px;padding:8px 16px;
+  transition:transform .15s,filter .2s}
+.btn.sek{color:var(--accent);background:var(--accent-soft)}
+.btn:hover{filter:brightness(1.08)}
+.btn:active{transform:scale(.95)}
+.btn:focus-visible,button.gbr:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.item.tunggu{opacity:0}
+.item.muncul{animation:muncul .6s cubic-bezier(.2,.8,.2,1) backwards;animation-delay:var(--d,0s)}
+#lb{border:0;padding:0;background:transparent;max-width:min(94vw,900px);max-height:92vh;overflow:visible}
+#lb::backdrop{background:rgba(0,0,0,.78)}
+#lb img{display:block;max-width:100%;max-height:88vh;margin:auto;border-radius:14px}
+#lbtutup{position:absolute;top:-14px;right:-14px;width:36px;height:36px;border-radius:50%;border:0;cursor:pointer;
+  background:var(--surface);color:var(--ink);font-size:16px}
+@media (prefers-reduced-motion:reduce){.item.muncul{animation:none}.item:hover{transform:none}.item:hover .gbr img{transform:none}}
+/* ===== TEKS RANGKUMAN ===== */
+.isi{white-space:normal}
+.baris{display:block}
+.baris.kosong-baris{height:.7em}
+.baris.jdl{font-weight:700;color:var(--accent);margin-top:.3em}
+.isi .baris.jdl:first-child{color:var(--ink);font-size:1.08em;margin-top:0}
+.baris.bullet{padding-left:1.1em;text-indent:-1.1em}
 </style>
 </head>
 <body>
@@ -155,7 +215,7 @@ footer{margin-top:56px;text-align:center;color:var(--muted);font-size:14px}
   <!-- ===== PROFIL =====
        Ganti foto: isi FOTO_URL di bagian script dengan alamat gambar (atau biarkan kosong untuk inisial) -->
   <header class="profil">
-    <div class="foto" id="foto" aria-label="Foto profil">DS</div>
+    <div class="foto" id="foto" aria-label="Foto profil"></div>
     <div>
       <span class="badge">Tugas Tren TI</span>
       <h1 id="nama" aria-label="Dimas Syahrul Miftahul Fitrian">Dimas Syahrul Miftahul Fitrian</h1>
@@ -170,12 +230,36 @@ footer{margin-top:56px;text-align:center;color:var(--muted);font-size:14px}
     </div>
   </header>
 
+  <!-- ===== PENDIDIKAN ===== (isi datanya di bagian PENDIDIKAN pada script) -->
+  <section class="pend" aria-labelledby="jdl-pend">
+    <h2 id="jdl-pend">Pendidikan</h2>
+    <ol class="garis" id="garis"></ol>
+  </section>
+
+  <!-- ===== PROYEK ===== (isi datanya di bagian PROYEK pada script) -->
+  <section class="pend" id="sec-proyek" aria-labelledby="jdl-proyek">
+    <h2 id="jdl-proyek">Proyek</h2>
+    <div class="galeri" id="galeri-proyek"></div>
+  </section>
+
+  <!-- ===== SERTIFIKAT ===== (isi datanya di bagian SERTIFIKAT pada script) -->
+  <section class="pend" id="sec-sertifikat" aria-labelledby="jdl-serti">
+    <h2 id="jdl-serti">Sertifikat</h2>
+    <div class="galeri" id="galeri-serti"></div>
+  </section>
+
+  <dialog id="lb" aria-label="Pratinjau sertifikat">
+    <img id="lbimg" alt="">
+    <button type="button" id="lbtutup" aria-label="Tutup">&#10005;</button>
+  </dialog>
+
   <!-- ===== KONTROL ===== -->
   <div class="bar">
     <h2>Rangkuman</h2>
     <input id="cari" type="search" placeholder="Cari judul atau isi rangkuman" aria-label="Cari rangkuman">
     <select id="filter" aria-label="Filter topik" hidden></select>
   </div>
+  <div class="tabs" id="tabs" role="tablist" aria-label="Pilih rangkuman"></div>
   <p class="hasil" id="hasil" aria-live="polite"></p>
   <main class="grid" id="grid"></main>
 
@@ -188,7 +272,51 @@ footer{margin-top:56px;text-align:center;color:var(--muted);font-size:14px}
    ===================================================== */
 
 // Alamat foto profil. Kosongkan ("") untuk memakai inisial "DS".
-const FOTO_URL = "";
+const FOTO_URL = "gambar/PP-WEB/PP-WEB.jpeg";
+
+/* DATA PENDIDIKAN (urut dari yang terbaru)
+   Isi "sekolah", "jurusan", dan "tahun" di antara tanda kutip.
+   Kalau "sekolah" dikosongkan, kartunya tampil "Belum diisi".
+   Untuk menambah jenjang, salin satu baris { ... } lalu beri koma di antara baris. */
+const PENDIDIKAN = [
+  { jenjang: "Perguruan Tinggi", sekolah: "Universitas Budi Luhur", jurusan: "S1 Teknik Informatika", tahun: "2026 \u2013 sekarang" },
+  { jenjang: "SMA / SMK",        sekolah: "SMK MANGGALA ", jurusan: "DESAIN KOMUNIKASI VISUAL", tahun: "2023-2026" },
+  { jenjang: "SMP",              sekolah: "SMP MANGGALA", tahun: "2020-2023" },
+  { jenjang: "SD",               sekolah: "SDN KARANG TENGAN 03", tahun: "2014-2020" }
+];
+
+/* DATA PROYEK (hasil web lain)
+   - gambar : alamat screenshot di folder gambar/proyek/ (contoh: "gambar/proyek/web-1.jpg")
+   - web    : link web yang sudah online (kosongkan "" jika belum ada, tombolnya otomatis hilang)
+   - kode   : link repository GitHub (boleh dikosongkan)
+   Untuk menambah proyek, salin satu blok { ... } dan beri koma di antara blok. */
+const PROYEK = [
+  {
+    judul: "Web Tugas Tren TI",
+    deskripsi: "Halaman portofolio berisi profil, pendidikan, dan rangkuman tugas mata kuliah Tren TI.",
+    teknologi: ["HTML", "CSS", "JavaScript"],
+    gambar: "gambar/proyek/web-tugas.png",
+    web: "https://dimassyahrulwork-gif.github.io/tugas-tren-ti/",
+    kode: "https://github.com/dimassyahrulwork-gif/tugas-tren-ti"
+  },
+  {
+    judul: "TOKO USAHA BAJU",
+    deskripsi: "Tulis penjelasan singkat 1 sampai 2 kalimat tentang web ini.",
+    teknologi: ["HTML", "CSS"],
+    gambar: "gambar/proyek/web-toko-baju.png",
+    web: "",
+    kode: ""
+  }
+];
+
+/* DATA SERTIFIKAT
+   - gambar     : alamat gambar di folder gambar/sertifikat/ (JPG/PNG/WebP, sebaiknya di bawah 400 KB)
+   - verifikasi : link verifikasi resmi dari penerbit (boleh dikosongkan)
+   Tutup (blur) data pribadi seperti nomor identitas sebelum gambar diunggah ke GitHub. */
+const SERTIFIKAT = [
+  { nama: "Nama sertifikat", penerbit: "Nama penerbit", tahun: "2026", gambar: "gambar/sertifikat/contoh-sertifikat.svg", verifikasi: "" },
+  { nama: "Nama sertifikat kedua", penerbit: "Nama penerbit", tahun: "2026", gambar: "gambar/sertifikat/contoh-sertifikat.svg", verifikasi: "" }
+];
 
 /* DAFTAR RANGKUMAN
    Setiap rangkuman punya 4 bagian:
@@ -200,7 +328,7 @@ const FOTO_URL = "";
    CARA MENAMBAH: salin satu blok { ... }, tempel di bawah blok terakhir,
    jangan lupa tanda koma di antara blok, lalu ubah isinya. */
 const RANGKUMAN = [
-  { judul: "Rangkuman 1", tanggal: "13-11-2026", topik: "Tren TI", isi: `Pengantar Teknologi Informasi – Modul 1 (materi 1)
+  { judul: "Rangkuman 1 · Pengantar TI", tanggal: "13-11-2026", topik: "Tren TI", isi: `Pengantar Teknologi Informasi – Modul 1 (materi 1)
 
 1. Computer (Komputer)
 Komputer adalah perangkat elektronik yang bekerja berdasarkan instruksi yang tersimpan di dalam memorinya untuk mengolah data menjadi informasi.
@@ -276,7 +404,7 @@ Jenis jaringan:
 
 9. Technology Uses
 Teknologi digunakan dalam berbagai bidang kehidupan, seperti pendidikan, bisnis, komunikasi, kesehatan, dan hiburan.` },
-  { judul: "Rangkuman 2", tanggal: "13-11-2027", topik: "Tren TI", isi: `Pengantar Teknologi Informasi – Modul 2 (materi 2)
+  { judul: "Rangkuman 2 · Internet & Web", tanggal: "13-11-2027", topik: "Tren TI", isi: `Pengantar Teknologi Informasi – Modul 2 (materi 2)
 Connecting and Communicating Online: The Internet, Websites, and Media
 
 1. Internet
@@ -344,7 +472,7 @@ Contoh penerapan:
 • Tidak menyebarkan berita bohong.
 • Tidak menghina atau mengganggu pengguna lain.
 • Menghargai privasi orang lain.` },
-  { judul: "Rangkuman 3", tanggal: "13-11-2027", topik: "Tren TI", isi: `Rangkuman Modul 03: Computers and Mobile Devices
+  { judul: "Rangkuman 3 · Komputer & Perangkat Mobile", tanggal: "13-11-2027", topik: "Tren TI", isi: `Rangkuman Modul 03: Computers and Mobile Devices
 
 1. Computer and Mobile Devices
 • Laptops, tablets, and desktops
@@ -430,7 +558,7 @@ Untuk membantu mengurangi kemungkinan pencurian, perusahaan dan sekolah mengguna
 
 Rangkuman (Chapter Summary)
 Modul ini menyajikan karakteristik dan pedoman pembelian untuk laptop, tablet, desktop, smartphone, kamera digital, dan pemutar media portabel dan digital. Juga membahas server, superkomputer, terminal point-of-sale, ATM, kios swalayan, pembaca e-book, perangkat yang dapat dipakai, perangkat game, komputer tertanam, dan komputasi awan. Tak lupa disajikan berbagai port dan koneksi, cara untuk melindungi perangkat keras, dan masalah kesehatan dari penggunaan teknologi bersama dengan langkah-langkah pencegahan.` },
-  { judul: "Rangkuman 4", tanggal: "13-11-2027", topik: "Tren TI", isi: `Rangkuman Modul 04: Programs and Apps
+  { judul: "Rangkuman 4 · Program & Aplikasi", tanggal: "13-11-2027", topik: "Tren TI", isi: `Rangkuman Modul 04: Programs and Apps
 
 1. Programs and Apps
 • Program atau perangkat lunak terdiri dari serangkaian instruksi terkait, disusun untuk tujuan bersama, yang memberi tahu komputer tugas apa yang harus dilakukan dan bagaimana melakukannya.
@@ -514,7 +642,7 @@ True / False (Tandai T untuk Benar dan F untuk Salah)
 8. File PDF dapat dilihat dan dicetak tanpa perangkat lunak yang membuat dokumen asli. (176)
 9. Militer dan maskapai penerbangan menggunakan simulasi CBT untuk melatih pilot untuk terbang dalam berbagai kondisi dan lingkungan. (184)
 10. Router juga dapat berfungsi sebagai firewall perangkat keras. (190)` },
-  { judul: "Rangkuman 5", tanggal: "13-11-2026", topik: "Tren TI", isi: `Rangkuman Modul 5: Digital Security, Ethics dan Privacy
+  { judul: "Rangkuman 5 · Keamanan Digital & Etika", tanggal: "13-11-2026", topik: "Tren TI", isi: `Rangkuman Modul 5: Digital Security, Ethics dan Privacy
 
 1.1 Resiko Keamanan Digital
 Resiko keamanan digital adalah kejadian atau tindakan yang dapat menyebabkan hilangnya atau kerusakan pada perangkat keras, perangkat lunak, data, informasi, atau kemampuan perangkat keras komputer atau perangkat seluler. Setiap tindakan ilegal yang melibatkan penggunaan komputer atau perangkat terkait umumnya disebut kejahatan komputer. Cybercrime adalah tindakan ilegal berbasis online atau berbasis internet.
@@ -609,7 +737,7 @@ Istilah lain terkait privasi:
 
 Rangkuman
 Dalam menghadapi era digital saat ini harus dipahami berbagai macam kejahatan yang memanfaatkan media digital. Memverifikasi keabsahan berita yang beredar di internet adalah langkah tepat untuk menghindari penyebaran hoax.` },
-  { judul: "Rangkuman 6", tanggal: "13-11-2027", topik: "Tren TI", isi: ` Rangkuman Modul 6: Komponen Komputer
+  { judul: "Rangkuman 6 · Komponen Komputer", tanggal: "13-11-2027", topik: "Tren TI", isi: ` Rangkuman Modul 6: Komponen Komputer
   1 Komponen Komputer Dalam Casing
 Casing berisi perangkat elektronik komputer atau perangkat seluler dan melindungi dari kerusakan seluler.
 
@@ -1284,6 +1412,7 @@ const grid = document.getElementById("grid");
 const cari = document.getElementById("cari");
 const filter = document.getElementById("filter");
 const hasil = document.getElementById("hasil");
+const tabs = document.getElementById("tabs");
 
 if (FOTO_URL) {
   const img = document.createElement("img");
@@ -1299,23 +1428,23 @@ if (topikUnik.length > 1) {
     topikUnik.map(t => `<option>${t}</option>`).join("");
 }
 
-function buatKartu(r) {
+function buatKartu(r, penuh) {
   const el = document.createElement("article");
   el.className = "kartu" + (r.isi.trim() ? "" : " kosong");
   const h = document.createElement("h3"); h.textContent = r.judul;
   const meta = document.createElement("div"); meta.className = "meta";
   if (r.topik) { const t = document.createElement("span"); t.className = "tag"; t.textContent = r.topik; meta.append(t); }
-  const tgl = document.createElement("span"); tgl.textContent = r.tanggal || "Tanggal belum diisi"; meta.append(tgl);
+  if (r.tanggal) { const tgl = document.createElement("span"); tgl.textContent = r.tanggal; meta.append(tgl); }
   if (r.isi.trim()) {
     const w = document.createElement("span");
     w.textContent = "± " + Math.max(1, Math.round(r.isi.trim().split(/\s+/).length / 200)) + " menit baca";
     meta.append(w);
   }
   const p = document.createElement("p"); p.className = "isi";
-  p.append(r.isi.trim() ? sorot(r.isi) : "Rangkuman ini belum diisi.");
+  p.append(r.isi.trim() ? isiNode(r.isi) : "Rangkuman ini belum diisi.");
   el.append(h, meta, p);
   // Isi panjang dipotong 6 baris dengan tombol "Baca selengkapnya"
-  if (r.isi.length > 300) {
+  if (!penuh && r.isi.length > 300) {
     p.classList.add("potong");
     const b = document.createElement("button");
     b.className = "lebih"; b.type = "button"; b.textContent = "Baca selengkapnya";
@@ -1328,19 +1457,46 @@ function buatKartu(r) {
   return el;
 }
 
+let aktif = 0; // rangkuman yang sedang dibuka (0 = yang pertama, -1 = tampilkan semua)
 function tampilkan() {
   const q = cari.value.trim().toLowerCase();
   const f = filter.value;
   const cocok = RANGKUMAN.filter(r =>
+    r.isi.trim() &&              // rangkuman yang masih kosong disembunyikan
     (!f || r.topik === f) &&
     (!q || (r.judul + " " + r.isi).toLowerCase().includes(q)));
-  grid.replaceChildren(...cocok.map(buatKartu));
+
+  // Jika rangkuman yang terbuka tidak cocok dengan pencarian, pindah ke yang cocok pertama
+  if (aktif >= 0 && !cocok.includes(RANGKUMAN[aktif])) {
+    aktif = cocok.length ? RANGKUMAN.indexOf(cocok[0]) : -1;
+  }
+
+  // Bar tab: tombol "Semua" + satu tombol per rangkuman
+  const buatTab = (label, nilai) => {
+    const t = document.createElement("button");
+    t.type = "button"; t.className = "tab"; t.textContent = label;
+    t.setAttribute("role", "tab");
+    t.setAttribute("aria-selected", String(nilai === aktif));
+    t.addEventListener("click", () => {
+      aktif = nilai; tampilkan();
+      const sel = tabs.querySelector('[aria-selected="true"]');
+      if (sel) sel.scrollIntoView({ inline: "center", block: "nearest", behavior: kurangiGerak ? "auto" : "smooth" });
+    });
+    return t;
+  };
+  tabs.replaceChildren(buatTab("Semua", -1), ...cocok.map(r => buatTab(r.judul, RANGKUMAN.indexOf(r))));
+
+  const tampil = aktif === -1 ? cocok : cocok.filter(r => RANGKUMAN.indexOf(r) === aktif);
+  grid.classList.toggle("satu", aktif !== -1);
+  grid.replaceChildren(...tampil.map(r => buatKartu(r, aktif !== -1)));
   if (!cocok.length) {
     const d = document.createElement("div"); d.className = "tak-ada";
     d.textContent = "Tidak ada rangkuman yang cocok. Coba kata kunci lain.";
     grid.append(d);
   }
-  hasil.textContent = `Menampilkan ${cocok.length} dari ${RANGKUMAN.length} rangkuman`;
+  hasil.textContent = aktif === -1
+    ? `Menampilkan ${cocok.length} dari ${RANGKUMAN.length} rangkuman`
+    : `Membuka ${RANGKUMAN[aktif].judul} \u00b7 ${cocok.length} rangkuman tersedia`;
   pantau();
 }
 cari.addEventListener("input", tampilkan);
@@ -1363,14 +1519,6 @@ function pantau() {
   });
 }
 
-// Cahaya lembut yang mengikuti kursor di kartu
-grid.addEventListener("pointermove", e => {
-  const k = e.target.closest(".kartu");
-  if (!k) return;
-  const r = k.getBoundingClientRect();
-  k.style.setProperty("--mx", (e.clientX - r.left) + "px");
-  k.style.setProperty("--my", (e.clientY - r.top) + "px");
-});
 
 // Garis progres scroll dan tombol kembali ke atas
 const bar = document.createElement("div"); bar.id = "progres";
@@ -1386,6 +1534,24 @@ function gulir() {
 addEventListener("scroll", gulir, { passive: true });
 gulir();
 naik.addEventListener("click", () => scrollTo({ top: 0, behavior: kurangiGerak ? "auto" : "smooth" }));
+
+// Pecah isi per baris: sub-judul ditebalkan, poin (bullet) diberi indentasi
+function isiNode(isi) {
+  const f = document.createDocumentFragment();
+  isi.trim().split("\n").forEach((l, i) => {
+    const t = l.trim();
+    const d = document.createElement("span");
+    d.className = "baris";
+    if (!t) { d.classList.add("kosong-baris"); f.append(d); return; }
+    const judul = i === 0 || (t.length <= 70 && !t.includes(":") &&
+      /^(\d+(\.\d+)*[.)]?\s|[a-e]\.\s|BAB\s|Kata Pengantar|Daftar Pustaka|Rangkuman|Latihan|Chapter)/i.test(t));
+    if (judul) d.classList.add("jdl");
+    if (t.startsWith("•")) d.classList.add("bullet");
+    d.append(sorot(t));
+    f.append(d);
+  });
+  return f;
+}
 
 // Sorot kata yang dicari di dalam isi rangkuman
 function sorot(teks) {
@@ -1434,19 +1600,78 @@ fotoEl.addEventListener("click", () => {
 });
 filter.addEventListener("change", tampilkan);
 
-// Skeleton shimmer sebentar sebelum kartu tampil
-(function () {
-  if (kurangiGerak) { tampilkan(); return; }
-  const sk = [];
-  for (let i = 0; i < RANGKUMAN.length; i++) {
-    const s = document.createElement("div");
-    s.className = "kartu skel";
-    s.innerHTML = '<i class="g1"></i><i class="g2"></i><i class="g3"></i><i class="g3"></i><i class="g4"></i>';
-    sk.push(s);
-  }
-  grid.replaceChildren(...sk);
-  setTimeout(tampilkan, 700);
-})();
+// Timeline pendidikan
+document.getElementById("garis").replaceChildren(...PENDIDIKAN.map((p, i) => {
+  const li = document.createElement("li");
+  li.className = "butir" + (p.sekolah ? "" : " kosong");
+  li.style.setProperty("--d", i * 0.1 + "s");
+  const j = document.createElement("span"); j.className = "jenjang"; j.textContent = p.jenjang;
+  const h = document.createElement("h3"); h.textContent = p.sekolah || "Belum diisi";
+  li.append(j, h);
+  const rinci = [p.jurusan, p.tahun].filter(Boolean).join(" \u00b7 ");
+  if (rinci) { const r = document.createElement("span"); r.className = "rinci"; r.textContent = rinci; li.append(r); }
+  if (io) { li.classList.add("tunggu"); io.observe(li); }
+  return li;
+}));
+
+// Proyek dan Sertifikat
+function gambarEl(src, alt) {
+  const im = document.createElement("img");
+  im.src = src; im.alt = alt; im.loading = "lazy"; im.decoding = "async";
+  im.addEventListener("error", () => { im.style.visibility = "hidden"; });
+  return im;
+}
+function tombolLink(teks, href, utama) {
+  const a = document.createElement("a");
+  a.className = "btn" + (utama ? "" : " sek");
+  a.textContent = teks; a.href = href; a.target = "_blank"; a.rel = "noopener noreferrer";
+  return a;
+}
+function pasangReveal(el, i) {
+  el.style.setProperty("--d", (i % 3) * 0.08 + "s");
+  if (io) { el.classList.add("tunggu"); io.observe(el); }
+}
+
+document.getElementById("galeri-proyek").replaceChildren(...PROYEK.map((p, i) => {
+  const el = document.createElement("article"); el.className = "item";
+  const g = document.createElement("div"); g.className = "gbr";
+  g.append(gambarEl(p.gambar, "Tangkapan layar " + p.judul));
+  const b = document.createElement("div"); b.className = "badan";
+  const h = document.createElement("h3"); h.textContent = p.judul;
+  const d = document.createElement("p"); d.className = "desk"; d.textContent = p.deskripsi;
+  const t = document.createElement("div"); t.className = "tags";
+  (p.teknologi || []).forEach(x => { const s = document.createElement("span"); s.className = "tag"; s.textContent = x; t.append(s); });
+  const a = document.createElement("div"); a.className = "aksi";
+  if (p.web) a.append(tombolLink("Buka web", p.web, true));
+  if (p.kode) a.append(tombolLink("Lihat kode", p.kode, false));
+  b.append(h, d, t, a);
+  el.append(g, b);
+  pasangReveal(el, i);
+  return el;
+}));
+
+const lb = document.getElementById("lb");
+const lbimg = document.getElementById("lbimg");
+lb.addEventListener("click", () => lb.close());
+document.getElementById("galeri-serti").replaceChildren(...SERTIFIKAT.map((s, i) => {
+  const el = document.createElement("article"); el.className = "item";
+  const g = document.createElement("button"); g.className = "gbr"; g.type = "button";
+  g.setAttribute("aria-label", "Perbesar sertifikat " + s.nama);
+  g.append(gambarEl(s.gambar, "Sertifikat " + s.nama));
+  g.addEventListener("click", () => { lbimg.src = s.gambar; lbimg.alt = "Sertifikat " + s.nama; lb.showModal(); });
+  const b = document.createElement("div"); b.className = "badan";
+  const h = document.createElement("h3"); h.textContent = s.nama;
+  const d = document.createElement("p"); d.className = "desk";
+  d.textContent = [s.penerbit, s.tahun].filter(Boolean).join(" · ");
+  const a = document.createElement("div"); a.className = "aksi";
+  if (s.verifikasi) a.append(tombolLink("Verifikasi", s.verifikasi, true));
+  b.append(h, d, a);
+  el.append(g, b);
+  pasangReveal(el, i);
+  return el;
+}));
+
+tampilkan();
 
 // Efek mengetik pada nama (dilewati jika pengunjung memilih "kurangi gerakan")
 (function () {
